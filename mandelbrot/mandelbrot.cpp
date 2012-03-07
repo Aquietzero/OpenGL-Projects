@@ -116,10 +116,6 @@ void specialKeys(int key, int x, int y) {
         reC += 0.01f;
     if (key == GLUT_KEY_DOWN)
         reC -= 0.01f;
-    if (key == GLUT_KEY_LEFT)
-        nRange += 0.1f;
-    if (key == GLUT_KEY_RIGHT)
-        nRange -= 0.1f;
 
     glutPostRedisplay();
 
