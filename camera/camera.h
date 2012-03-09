@@ -5,33 +5,56 @@
 #include <GL/glu.h>
 #include <GL/gl.h>
 
+#include <iostream>
 #include <math.h>
 
 #include "lib/mathaux.h"
 #include "lib/vector.h"
 
+using namespace std;
+
 class Camera {
 
-    const Vector3D<GLfloat> DEFAULT_POSITION = Vector3D<GLfloat>(0.0, 0.0, 0.0);
-    const Vector3D<GLfloat> DEFAULT_LOOKAT   = Vector3D<GLfloat>(0.0, 0.0, -1.0);
-    const Vector3D<GLfloat> DEFAULT_ROTATION = Vector3D<GLfloat>(0.0, 0.0, 0.0);
+    // default direction normal vectors
+    static const Vector3D<GLfloat> FRONT;
+    static const Vector3D<GLfloat> BACK;
+    static const Vector3D<GLfloat> UP;
+    static const Vector3D<GLfloat> DOWN;
+    static const Vector3D<GLfloat> LEFT;
+    static const Vector3D<GLfloat> RIGHT;
+
+    // default camera attribute vectors
+    static const Vector3D<GLfloat> POSITION;
+    static const Vector3D<GLfloat> VIEW_DIRECTION;
+    static const Vector3D<GLfloat> ROTATION;
 
     private:
         Vector3D<GLfloat> position;
-        Vector3D<GLfloat> lookAt;
+        Vector3D<GLfloat> viewDirection;
         Vector3D<GLfloat> rotation;
+        Vector3D<GLfloat> upDirection;
+        Vector3D<GLfloat> rightDirection;
 
     public:
-        Camera(Vector3D<GLfloat> position = DEFAULT_POSITION,
-               Vector3D<GLfloat> lookAt   = DEFAULT_LOOKAT,
-               Vector3D<GLfloat> rotation = DEFAULT_ROTATION);
+        Camera(Vector3D<GLfloat> pos = POSITION,
+               Vector3D<GLfloat> viewDir = VIEW_DIRECTION,
+               Vector3D<GLfloat> upDir = UP);
         ~Camera() {};
 
         void render();
-        void rotateX(float radians);
-        void rotateY(float radians);
-        void rotateZ(float radians);
-        void move(float distance);
+        //void rotateX(float radians);
+        //void rotateY(float radians);
+        //void rotateZ(float radians);
+        
+        void move(Vector3D<GLfloat> direction);
+
+        void moveUp(float);
+        void moveDown(float);
+        void moveLeft(float);
+        void moveRight(float);
+        void moveForward(float);
+        void moveBackward(float);
+
 };
 
 #endif

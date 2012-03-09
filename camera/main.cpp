@@ -4,12 +4,18 @@
 
 #include <cmath>
 #include "lib/vector.h"
+#include "camera.h"
 
 #define PI 3.1415926
 
-GLfloat alpha;
-GLfloat beta;
-GLfloat radius;
+//GLfloat alpha;
+//GLfloat beta;
+//GLfloat radius;
+Camera camera;
+Vector3D<GLfloat> forward(0, 0, -0.1);
+Vector3D<GLfloat> backward(0, 0, 0.1);
+Vector3D<GLfloat> leftward(-0.1, 0, 0);
+Vector3D<GLfloat> rightward(0.1, 0, 0);
 
 GLfloat radians(GLfloat d) {
     return d*PI/180.0;
@@ -20,12 +26,16 @@ void renderScene() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glColor3f(0.5, 0.5, 0.5);
+
+    camera.render();
+    /*
     glLoadIdentity();
     gluLookAt(radius*cos(radians(alpha))*sin(radians(beta)), 
               radius*sin(radians(alpha)), 
               radius*cos(radians(alpha))*cos(radians(beta)), 
               0.0, 0.0, 0.0, 
               0.0, 1.0, 0.0);
+              */
     glutSolidCube(2.0);
 
     glutSwapBuffers();
@@ -33,10 +43,6 @@ void renderScene() {
 }
 
 void setupRC() {
-
-    alpha = 45.0f;
-    beta = 0.0f;
-    radius = 7.0f;
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glEnable(GL_DEPTH_TEST);
@@ -81,18 +87,17 @@ void changeSize(GLsizei w, GLsizei h) {
 void keyDown(unsigned char key, int x, int y) {
 
     switch(key) {
-        case 'a':
-            beta += 2.0;
-            break;
-        case 'd':
-            beta -= 2.0;
-            break;
         case 'w':
-            alpha += 2.0;
+            camera.moveForward(0.1);
             break;
         case 's':
-            alpha -= 2.0;
+            camera.moveBackward(0.1);
             break;
+        case 'a':
+            camera.move(leftward);
+            break;
+        case 'd':
+            camera.move(rightward);
     }
 
     glutPostRedisplay();
