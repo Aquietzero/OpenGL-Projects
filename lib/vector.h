@@ -24,7 +24,7 @@ class Vector2D {
         V_TYPE cross(const Vector2D&) const; // cross product
 
         double normal() const; // the precision of this method is raised to the highest 'double'
-        Vector2D<V_TYPE> normalize(); // the precision of this method depends on the V_TYPE
+        void normalize(); // the precision of this method depends on the V_TYPE
 
         Vector2D& operator=(const Vector2D&);
         
@@ -92,9 +92,10 @@ double Vector2D<V_TYPE>::normal() const {
 }
 
 template<class V_TYPE>
-Vector2D<V_TYPE> Vector2D<V_TYPE>::normalize() {
+void Vector2D<V_TYPE>::normalize() {
     V_TYPE n = normal();
-    return Vector2D<V_TYPE>(x/n, y/n);
+    x /= n;
+    y /= n;
 }
 
 
@@ -119,7 +120,7 @@ class Vector3D {
         Vector3D cross(const Vector3D&) const; // cross product
 
         double normal() const; // the precision of this method is raised to the highest 'double'
-        Vector3D<V_TYPE> normalize(); // the precision of this method depends on the V_TYPE
+        void normalize(); // the precision of this method depends on the V_TYPE
 
         Vector3D& operator=(const Vector3D&);
         
@@ -191,9 +192,11 @@ double Vector3D<V_TYPE>::normal() const {
 }
 
 template<class V_TYPE>
-Vector3D<V_TYPE> Vector3D<V_TYPE>::normalize() {
+void Vector3D<V_TYPE>::normalize() {
     V_TYPE n = normal();
-    return Vector3D<V_TYPE>(x/n, y/n, z/n);
+    x /= n;
+    y /= n;
+    z /= n;
 }
 
 

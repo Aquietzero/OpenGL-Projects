@@ -11,11 +11,7 @@
 //GLfloat alpha;
 //GLfloat beta;
 //GLfloat radius;
-Camera camera;
-Vector3D<GLfloat> forward(0, 0, -0.1);
-Vector3D<GLfloat> backward(0, 0, 0.1);
-Vector3D<GLfloat> leftward(-0.1, 0, 0);
-Vector3D<GLfloat> rightward(0.1, 0, 0);
+Camera3D camera;
 
 GLfloat radians(GLfloat d) {
     return d*PI/180.0;
@@ -36,7 +32,13 @@ void renderScene() {
               0.0, 0.0, 0.0, 
               0.0, 1.0, 0.0);
               */
-    glutSolidCube(2.0);
+
+    glPushMatrix();
+
+    glTranslatef(0, 0, -5.0);
+    glutSolidCube(1.0);
+
+    glPopMatrix();
 
     glutSwapBuffers();
 
@@ -94,10 +96,16 @@ void keyDown(unsigned char key, int x, int y) {
             camera.moveBackward(0.1);
             break;
         case 'a':
-            camera.move(leftward);
+            camera.moveLeft(0.1);
             break;
         case 'd':
-            camera.move(rightward);
+            camera.moveRight(0.1);
+            break;
+        case 'q':
+            camera.rotateY(0.5);
+            break;
+        case 'e':
+            camera.rotateY(-0.5);
     }
 
     glutPostRedisplay();

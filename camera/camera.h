@@ -13,7 +13,7 @@
 
 using namespace std;
 
-class Camera {
+class Camera3D {
 
     // default direction normal vectors
     static const Vector3D<GLfloat> FRONT;
@@ -36,15 +36,16 @@ class Camera {
         Vector3D<GLfloat> rightDirection;
 
     public:
-        Camera(Vector3D<GLfloat> pos = POSITION,
+        Camera3D(Vector3D<GLfloat> pos = POSITION,
                Vector3D<GLfloat> viewDir = VIEW_DIRECTION,
                Vector3D<GLfloat> upDir = UP);
-        ~Camera() {};
+        ~Camera3D() {};
 
         void render();
-        //void rotateX(float radians);
-        //void rotateY(float radians);
-        //void rotateZ(float radians);
+
+        void rotateX(float);
+        void rotateY(float);
+        void rotateZ(float);
         
         void move(Vector3D<GLfloat> direction);
 
