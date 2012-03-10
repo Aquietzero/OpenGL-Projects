@@ -36,19 +36,20 @@ class Camera3D {
         Vector3D<GLfloat> rightDirection;
 
     public:
-        Camera3D(Vector3D<GLfloat> pos = POSITION,
-               Vector3D<GLfloat> viewDir = VIEW_DIRECTION,
-               Vector3D<GLfloat> upDir = UP);
+        Camera3D();
+        Camera3D(Vector3D<GLfloat> pos,
+               Vector3D<GLfloat> viewDir,
+               Vector3D<GLfloat> upDir);
         ~Camera3D() {};
 
         void render();
 
+        void rotate(Vector3D<GLfloat>);
         void rotateX(float);
         void rotateY(float);
         void rotateZ(float);
         
-        void move(Vector3D<GLfloat> direction);
-
+        void move(Vector3D<GLfloat>);
         void moveUp(float);
         void moveDown(float);
         void moveLeft(float);

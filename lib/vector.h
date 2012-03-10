@@ -181,7 +181,7 @@ Vector3D<V_TYPE> Vector3D<V_TYPE>::cross(const Vector3D& v) const {
 template<class V_TYPE>
 Vector3D<V_TYPE>& Vector3D<V_TYPE>::operator=(const Vector3D<V_TYPE>& v) {
     if (&v != this)
-        x = v.x, y = v.y, z = v.z;
+        x = v.x; y = v.y, z = v.z;
     return *this;
 }
 

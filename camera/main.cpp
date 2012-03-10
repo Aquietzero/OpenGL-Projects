@@ -24,15 +24,6 @@ void renderScene() {
     glColor3f(0.5, 0.5, 0.5);
 
     camera.render();
-    /*
-    glLoadIdentity();
-    gluLookAt(radius*cos(radians(alpha))*sin(radians(beta)), 
-              radius*sin(radians(alpha)), 
-              radius*cos(radians(alpha))*cos(radians(beta)), 
-              0.0, 0.0, 0.0, 
-              0.0, 1.0, 0.0);
-              */
-
     glPushMatrix();
 
     glTranslatef(0, 0, -5.0);

@@ -1,7 +1,12 @@
 #include "const.h"
 #include "terrain.h"
+#include "camera/camera.h"
 
 Terrain *terrain;
+Vector3D<GLfloat> cameraPos(2.0, 2.0, 8.0);
+Vector3D<GLfloat> cameraViewDirection(-2.0, -2.0, -8.0);
+Camera3D camera;
+
 GLfloat alpha, beta, radius;
 
 void setupTerrain() {
@@ -21,14 +26,20 @@ void renderScene() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glColor3ub(150, 150, 150);
 
+    camera.render();
+    /*
     glLoadIdentity();
     gluLookAt(radius*cos(radians(alpha))*sin(radians(beta)), 
               radius*sin(radians(alpha)), 
               radius*cos(radians(alpha))*cos(radians(beta)), 
               0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+              */
 
+    glPushMatrix();
+    glTranslatef(0, 0, -5.0);
     GLfloat color[3] = {0.2, 0.2, 0.3};
     terrain->renderTerrain(4, color, terrain->WIRE);
+    glPopMatrix();
 
     glutSwapBuffers();
 
@@ -83,6 +94,33 @@ void spinning(int value) {
 
 }
 
+void keyDown(unsigned char key, int x, int y) {
+
+    switch(key) {
+        case 'a':
+            camera.rotateY(0.5);
+            break;
+        case 'd':
+            camera.rotateY(-0.5);
+            break;
+        case 'w':
+            camera.moveForward(0.1);
+            break;
+        case 's':
+            camera.moveBackward(0.1);
+            break;
+        case 'r':
+            camera.moveUp(0.1);
+            break;
+        case 'f':
+            camera.moveDown(0.1);
+            break;
+    }
+
+    glutPostRedisplay();
+
+}
+
 int main(int argc, char **argv) {
 
     glutInit(&argc, argv);
@@ -96,7 +134,8 @@ int main(int argc, char **argv) {
     setupTerrain();
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
-    glutSpecialFunc(specialKeys);
+    //glutSpecialFunc(specialKeys);
+    glutKeyboardFunc(keyDown);
     //glutTimerFunc(65, spinning, 1);
 
     glutMainLoop();
