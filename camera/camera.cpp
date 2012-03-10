@@ -24,8 +24,9 @@ Camera3D::Camera3D() {
 Camera3D::Camera3D(Vector3D<GLfloat> pos, Vector3D<GLfloat> viewDir, Vector3D<GLfloat> upDir)
     : position(pos), viewDirection(viewDir), upDirection(upDir) {
     
-    rotation = ROTATION;
-    rightDirection = RIGHT;
+    rotation = Vector3D<GLfloat>(0, 0, 0);
+    rightDirection = viewDirection.cross(upDirection);
+    rightDirection.normalize();
 
 }
 

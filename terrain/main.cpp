@@ -3,9 +3,12 @@
 #include "camera/camera.h"
 
 Terrain *terrain;
+
 Vector3D<GLfloat> cameraPos(2.0, 2.0, 8.0);
 Vector3D<GLfloat> cameraViewDirection(-2.0, -2.0, -8.0);
-Camera3D camera;
+Vector3D<GLfloat> upDirection(0.0, 1.0, 0.0);
+
+Camera3D camera(cameraPos, cameraViewDirection, upDirection);
 
 GLfloat alpha, beta, radius;
 
@@ -24,7 +27,6 @@ void setupTerrain() {
 void renderScene() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColor3ub(150, 150, 150);
 
     camera.render();
     /*
@@ -37,7 +39,7 @@ void renderScene() {
 
     glPushMatrix();
     glTranslatef(0, 0, -5.0);
-    GLfloat color[3] = {0.2, 0.2, 0.3};
+    GLfloat color[3] = {0.7, 0.7, 0.7};
     terrain->renderTerrain(4, color, terrain->WIRE);
     glPopMatrix();
 
@@ -97,12 +99,6 @@ void spinning(int value) {
 void keyDown(unsigned char key, int x, int y) {
 
     switch(key) {
-        case 'a':
-            camera.rotateY(0.5);
-            break;
-        case 'd':
-            camera.rotateY(-0.5);
-            break;
         case 'w':
             camera.moveForward(0.1);
             break;
@@ -115,6 +111,25 @@ void keyDown(unsigned char key, int x, int y) {
         case 'f':
             camera.moveDown(0.1);
             break;
+        case 'j':
+            camera.rotateX(0.5);
+            break;
+        case 'k':
+            camera.rotateX(-0.5);
+            break;
+        case 'h':
+            camera.rotateY(0.5);
+            break;
+        case 'l':
+            camera.rotateY(-0.5);
+            break;
+        case 'q':
+            camera.rotateZ(0.5);
+            break;
+        case 'e':
+            camera.rotateZ(-0.5);
+            break;
+
     }
 
     glutPostRedisplay();
