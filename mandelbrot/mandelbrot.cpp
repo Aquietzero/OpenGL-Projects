@@ -66,7 +66,7 @@ void renderMandelbort() {
                 glColor3ub(0, 0, 0);
             }
             else {
-                glColor3f(0.8f*n/iterMax, 0, 0.8f*n/iterMax);
+                glColor3f(0.0f*n/iterMax, 0, 0.8f*n/iterMax);
                 glVertex2f(re, im);
             }
         }

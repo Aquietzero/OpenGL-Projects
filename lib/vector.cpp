@@ -3,7 +3,7 @@
 /* Calculates the normal vector from the two given vectors according
  * to the cross product.
  */
-GLfloat* getNormalVector(
+GLfloat* getNormalVector2f(
         GLfloat x1, GLfloat y1, GLfloat z1,
         GLfloat x2, GLfloat y2, GLfloat z2) {
 
@@ -17,5 +17,29 @@ GLfloat* getNormalVector(
     nv[2] = (x1*y2 - x1*y2) / length;
 
     return nv;
+
+}
+
+/* Calculates the normal vector from the three given points according
+ * to the cross product.
+ */
+GLfloat* getNormalVector3f(
+        GLfloat x1, GLfloat y1, GLfloat z1,
+        GLfloat x2, GLfloat y2, GLfloat z2,
+        GLfloat x3, GLfloat y3, GLfloat z3) {
+
+    GLfloat v1[] = {x2-x1, y2-y1, z2-z1};
+    GLfloat v2[] = {x2-x3, y2-y3, z2-z3};
+
+    return getNormalVector2f(v2[0], v2[1], v2[2],
+                             v1[0], v1[1], v1[2]);
+
+}
+
+GLfloat* getNormalVector3fv(GLfloat v1[], GLfloat v2[], GLfloat v3[]) {
+
+    return getNormalVector3f(v1[0], v1[1], v1[2],
+                             v2[0], v2[1], v2[2],
+                             v3[0], v3[1], v3[2]);
 
 }

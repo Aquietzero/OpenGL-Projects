@@ -201,8 +201,16 @@ void Vector3D<V_TYPE>::normalize() {
 
 
 
-GLfloat* getNormalVector(
+GLfloat* getNormalVector2f(
         GLfloat x1, GLfloat y1, GLfloat z1, 
         GLfloat x2, GLfloat y2, GLfloat z2);
+
+GLfloat* getNormalVector3f(
+        GLfloat x1, GLfloat y1, GLfloat z1, 
+        GLfloat x2, GLfloat y2, GLfloat z2,
+        GLfloat x3, GLfloat y3, GLfloat z3);
+
+GLfloat* getNormalVector3fv(GLfloat v1[], GLfloat v2[], GLfloat v3[]);
+
 
 #endif
