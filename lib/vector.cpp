@@ -8,13 +8,21 @@ GLfloat* getNormalVector2f(
         GLfloat x2, GLfloat y2, GLfloat z2) {
 
     GLfloat *nv = new GLfloat[3];
+    /*  
     GLfloat length = sqrt((x1-x2) * (x1-x2) +
                           (y1-y2) * (y1-y2) +
                           (z1-z2) * (z1-z2));
+    */
 
-    nv[0] = (y1*z2 - z1*y2) / length;
-    nv[1] = (z1*x2 - x1*z2) / length;
-    nv[2] = (x1*y2 - x1*y2) / length;
+    nv[0] = (y1*z2 - z1*y2);
+    nv[1] = (z1*x2 - x1*z2);
+    nv[2] = (x1*y2 - x1*y2);
+
+    GLfloat length = sqrt(nv[0]*nv[0] + nv[1]*nv[1] + nv[2]*nv[2]);
+
+    nv[0] /= length;
+    nv[1] /= length;
+    nv[2] /= length;
 
     return nv;
 

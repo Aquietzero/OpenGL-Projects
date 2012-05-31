@@ -1,15 +1,7 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
-// For rendering the terrain.
-#include <GL/glut.h>
-#include <GL/glu.h>
-#include <GL/gl.h>
-
-// For random number.
-#include <stdlib.h>
-#include <ctime>
-#include <cmath>
+#include "const.h"
 
 // For normal vector calculation.
 #include "lib/vector.h"
@@ -28,12 +20,10 @@ class Terrain {
 
     // Public default attributes.
     public:
-        static const int DEFAULT_SIZE  = 128;
-        static const float DEFAULT_HEIGHT = 2.0;
+        static const int DEFAULT_SIZE  = 256;
+        static const float DEFAULT_HEIGHT = 1.0;
         static const float DEFAULT_ROUGHNESS = 0.9;
         enum RENDER_TYPE{ SOLID, WIRE };
-
-    private:
 
         // The size of the terrain.
         int size;
@@ -58,16 +48,17 @@ class Terrain {
 
     public:
 
-        Terrain(const int size = DEFAULT_SIZE, 
+        Terrain(const int   size       = DEFAULT_SIZE, 
                 const float max_height = DEFAULT_HEIGHT, 
                 const float roughness  = DEFAULT_ROUGHNESS);
         ~Terrain();
 
-        void generateTerrain();
+        void generate();
         void diamond(int x, int y, int step, float roughness);
         void square(int x, int y, int step, float roughness);
+        void smooth();
 
-        void renderTerrain(int size, float c[], RENDER_TYPE type=WIRE);
+        void render(int size, float c[], RENDER_TYPE type=WIRE);
         void renderWireTerrain(int size, float color[]);
         void renderSolidTerrain(int size, float color[]);
 

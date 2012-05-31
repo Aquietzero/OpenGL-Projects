@@ -6,6 +6,8 @@
 #include <GL/gl.h>
 
 #include <iostream>
+#include <stdlib.h>
+#include <ctime>
 #include <cmath>
 
 #define PI 3.1415926
@@ -15,8 +17,8 @@ using namespace std;
 inline GLfloat radians(GLfloat x) { return x*PI/180.0; };
 
 void setupRC();
-void setupLight();
-void setupMaterial();
+void setupLightAndMaterial();
+void setupTexture();
 
 void setupTerrain();
 void renderScene();
