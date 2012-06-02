@@ -14,12 +14,11 @@ Vector3D<GLfloat> cameraViewDirection(-2.0, -2.0, -8.0);
 Vector3D<GLfloat> upDirection(0.0, 1.0, 0.0);
 
 Camera3D camera(cameraPos, cameraViewDirection, upDirection);
-
-GLfloat alpha, beta, radius;
+const GLint FPS = 15;
 
 void setupTerrain() {
 
-    terrain = new Terrain(256, 18.0, 1.2);
+    terrain = new Terrain(256, 2.0, 1.2);
     srand(unsigned(time(NULL)));
     terrain->generate();
 
@@ -27,7 +26,7 @@ void setupTerrain() {
 
 void setupWater() {
 
-    water = new Water(64, 1.0, 1.2);
+    water = new Water(32, 2.0, 1.3);
 
 }
 
@@ -48,10 +47,10 @@ void renderScene() {
     camera.render();
 
     GLfloat color[3] = {0.5, 0.5, 0.5};
-    //terrain->render(40, color, Terrain::SOLID);
-    water->render(4, color, Water::WIRE);
+    water->render(10, color, Water::WIRE);
+    terrain->render(10, color, Terrain::SOLID);
 
-    /*
+    /*  
     glPushMatrix();
     glTranslatef(-4 + 8.0/256*20, terrain->terrain[20][15], -4 + 8.0/256*15);
     tree1->render();
@@ -99,29 +98,11 @@ void changeSize(GLsizei w, GLsizei h) {
 
 }
 
-void specialKeys(int key, int x, int y) {
-
-    if (key == GLUT_KEY_LEFT)
-        beta += 2.0;
-    if (key == GLUT_KEY_RIGHT)
-        beta -= 2.0;
-    if (key == GLUT_KEY_UP)
-        alpha += 2.0;
-    if (key == GLUT_KEY_DOWN)
-        alpha -= 2.0;
-
-    if (beta >= 360.0)
-        beta = 0.0;
-
-    glutPostRedisplay();
-
-}
-
 void waving(int value) {
 
     water->wave();
     glutPostRedisplay();
-    glutTimerFunc(33, waving, 1);
+    glutTimerFunc(1000.0/FPS, waving, 1);
 
 }
 
@@ -180,9 +161,8 @@ int main(int argc, char **argv) {
     setupWater();
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
-    //glutSpecialFunc(specialKeys);
     glutKeyboardFunc(keyDown);
-    glutTimerFunc(33, waving, 1);
+    glutTimerFunc(1000.0/FPS, waving, 1);
 
     glutMainLoop();
     return 0;

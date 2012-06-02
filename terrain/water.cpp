@@ -23,18 +23,24 @@ Water::Water(const int s, const float max_h, const float r) {
     size = isPowerOf2(s) ? s : closestPowerOf2lt(s);
 
     // Allocate the water and waveFunc.
-    water = new float*[size+1];
-    waveFunc = new float*[size+1];
-    for (int i = 0; i <= size; ++i) {
-        water[i] = new float[size+1];
-        waveFunc[i] = new float[size+1];
-    }
+    water        = new float*[size+1];
+    waveFunc     = new float*[size+1];
+    waterPrev    = new float*[size+1];
+    waveFuncPrev = new float*[size+1];
 
-    for (int i = 0; i <= size; ++i)
+    for (int i = 0; i <= size; ++i) {
+        water[i]        = new float[size+1];
+        waveFunc[i]     = new float[size+1];
+        waterPrev[i]    = new float[size+1];
+        waveFuncPrev[i] = new float[size+1];
+        
         for (int j = 0; j <= size; ++j) {
-            water[i][j] = 0.0;
-            waveFunc[i][j] = 0.0;
+            water[i][j]        = 0.0;
+            waveFunc[i][j]     = 0.0;
+            waterPrev[i][j]    = 0.0;
+            waveFuncPrev[i][j] = 0.0;
         }
+    }
 
     // Using the water generator to randomly generate a wave
     // function for water.
@@ -43,8 +49,10 @@ Water::Water(const int s, const float max_h, const float r) {
     t->generate();
 
     for (int i = 0; i < size; ++i)
-        for (int j = 0; j < size; ++j)
-            waveFunc[i][j] = t->terrain[i][j];
+        for (int j = 0; j < size; ++j) {
+            waveFunc[i][j]     = t->terrain[i][j];
+            waveFuncPrev[i][j] = t->terrain[i][j];
+        }
 
 }
 
@@ -59,8 +67,6 @@ void Water::wave() {
 
     GLfloat sum;
     GLint ig, il, jg, jl;
-    GLfloat t = 0.1;
-    GLfloat c = 2;
 
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
@@ -70,17 +76,23 @@ void Water::wave() {
             jl = j == 0 ? size - 1 : j - 1;
             jg = j == size - 1 ? 0 : j + 1;
 
-            sum = waveFunc[ig][j] +
-                  waveFunc[il][j] +
-                  waveFunc[i][jg] +
-                  waveFunc[i][jl] -
-                  4 * waveFunc[i][j];
-            sum = sum * t * c * c / 25.0;
+            sum = waveFuncPrev[ig][j] +
+                  waveFuncPrev[il][j] +
+                  waveFuncPrev[i][jg] +
+                  waveFuncPrev[i][jl] -
+                  4 * waveFuncPrev[i][j];
+            sum = sum / 10.0;
 
-            water[i][j] += sum;
-            waveFunc[i][j] += t * water[i][j];
+            water[i][j] = waterPrev[i][j] + sum;
+            waveFunc[i][j] = waveFuncPrev[i][j] + water[i][j];
         }
     }
+
+    for (int i = 0; i < size; ++i)
+        for (int j = 0; j < size; ++j) {
+            waterPrev[i][j]    = water[i][j];
+            waveFuncPrev[i][j] = waveFunc[i][j];
+        }
 
 }
 
@@ -107,7 +119,8 @@ void Water::renderWireWater(int s, float c[]) {
     GLfloat y = -(GLfloat)s;
     GLfloat *nv;
 
-    glColor3fv(c);
+    // glColor3fv(c);
+    glColor3ub(255, 255, 255);
 
     glBegin(GL_LINES);
     for (int i = 0; i < size - 1; ++i) {
@@ -141,30 +154,57 @@ void Water::renderSolidWater(int s, float c[]) {
     GLfloat step = (GLfloat)2*s / size;
     GLfloat x = -(GLfloat)s;
     GLfloat z = -(GLfloat)s;
-    GLfloat *nv;
 
-    glColor3fv(c);
-
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor4f(0, 0, 1.0, 1.0);
+    //glColor3ub(200, 200, 0);
     glBegin(GL_QUADS);
-    for (int i = 0; i < size - 1; ++i) {
-        for (int j = 0; j < size - 1; ++j) {
-            nv = getNormalVector2f(0, water[i+1][j]-water[i][j], step,
-                                   step, water[i+1][j]-water[i+1][j+1], 0);
-            glNormal3fv(nv);
-            glTexCoord2f((float)i/size, (float)j/size);
+    for (int i = 1; i < size - 2; ++i) {
+        for (int j = 1; j < size - 2; ++j) {
+
+            glNormal3fv(getNormalVector(i, j, step, water));
             glVertex3f(x, water[i][j], z);
-            glTexCoord2f((float)i/size, (float)(j+1)/size);
+
+            glNormal3fv(getNormalVector(i, j+1, step, water));
             glVertex3f(x, water[i][j+1], z+step);
-            glTexCoord2f((float)(i+1)/size, (float)(j+1)/size);
+            
+            glNormal3fv(getNormalVector(i+1, j+1, step, water));
             glVertex3f(x+step, water[i+1][j+1], z+step);
-            glTexCoord2f((float)(i+1)/size, (float)j/size);
+
+            glNormal3fv(getNormalVector(i+1, j, step, water));
             glVertex3f(x+step, water[i+1][j], z);
 
             z += step;
         }
+
         x += step;
         z = -(GLfloat)s;
     }
+
     glEnd();
+    glDisable(GL_BLEND);
+
+}
+
+GLfloat* Water::getNormalVector(int i, int j, GLfloat step, GLfloat **water) {
+
+    GLfloat *nv1, *nv2, *nv3, *nv4, *nvAvg;
+
+    nv1 = getNormalVector2f(0, water[i+1][j]-water[i][j], step,
+            step, water[i+1][j]-water[i+1][j+1], 0);
+
+    nv2 = getNormalVector2f(0, water[i+1][j-1]-water[i][j-1], step,
+            step, water[i+1][j-1]-water[i+1][j], 0);
+
+    nv3 = getNormalVector2f(0, water[i][j-1]-water[i-1][j-1], step,
+            step, water[i][j-1]-water[i][j], 0);
+
+    nv4 = getNormalVector2f(0, water[i][j]-water[i-1][j], step,
+            step, water[i][j]-water[i][j+1], 0);
+
+    nvAvg = getAvgVector4f(nv1, nv2, nv3, nv4);
+
+    return nvAvg;
 
 }
