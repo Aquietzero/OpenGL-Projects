@@ -47,8 +47,10 @@ void renderScene() {
     camera.render();
 
     GLfloat color[3] = {0.5, 0.5, 0.5};
-    water->render(10, color, Water::WIRE);
-    terrain->render(10, color, Terrain::SOLID);
+    glBindTexture(GL_TEXTURE_2D, 2);
+    water->render(8, color, Water::SOLID);
+    glBindTexture(GL_TEXTURE_2D, 1);
+    terrain->render(8, color, Terrain::SOLID);
 
     /*  
     glPushMatrix();

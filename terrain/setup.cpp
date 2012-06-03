@@ -1,18 +1,13 @@
 #include "const.h"
 #include "lib/bmpReader.h"
 
-#define TEXTURE_COUNT 1
-#define GROUND_TEXTURE 0
-#define GROUND_TEXTURE_SRC "textures/sand.bmp"
-
-GLuint textures[TEXTURE_COUNT];
-
 void setupRC() {
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     glEnable(GL_MULTISAMPLE);
+    glEnable(GL_COLOR_SUM);
 
     setupLightAndMaterial();
     setupTexture();
@@ -23,8 +18,8 @@ void setupLightAndMaterial() {
 
     GLfloat ambientLight[] = {0.5, 0.5, 0.5, 1.0};
     GLfloat diffuseLight[] = {0.7, 0.7, 0.7, 1.0};
-    GLfloat specularLight[] = {0.5, 0.5, 0.5, 1.0};
-    GLfloat lightSource[]  = {140.0, 10.0, 140.0, 1.0};
+    GLfloat specularLight[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat lightSource[]  = {14.0, 10.0, 14.0, 1.0};
 
     glEnable(GL_LIGHTING);
 
@@ -52,31 +47,36 @@ void setupTexture() {
     GLint iWidth, iHeight, iComponents;
     GLenum eFormat;
 
-    iWidth = 0;
-    iHeight = 0;
-
     glEnable(GL_TEXTURE_2D);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
     glGenTextures(TEXTURE_COUNT, textures);
-    glBindTexture(GL_TEXTURE_2D, textures[GROUND_TEXTURE]);
+    for (GLint i = 0; i < TEXTURE_COUNT; ++i) {
 
-    // Load texture
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    pBytes = bmpReader(GROUND_TEXTURE_SRC, iWidth, iHeight);
+        iWidth = 0;
+        iHeight = 0;
 
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, iWidth, iHeight, 
-            0, GL_BGR, GL_UNSIGNED_BYTE, pBytes);
-    free(pBytes);
+        glBindTexture(GL_TEXTURE_2D, textures[i]);
 
-    GLfloat fLargest;
+        // Load texture
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        pBytes = bmpReader(textures_src[i], iWidth, iHeight);
 
-    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &fLargest);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, iWidth, iHeight, 
+                0, GL_BGR, GL_UNSIGNED_BYTE, pBytes);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, fLargest);
+        GLfloat fLargest;
+
+        glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &fLargest);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, fLargest);
+        
+        free(pBytes);
+
+    }
 
 }

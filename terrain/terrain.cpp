@@ -201,10 +201,13 @@ void Terrain::renderSolidTerrain(int s, float c[]) {
             glNormal3fv(nv);
             glTexCoord2f((float)i/size, (float)j/size);
             glVertex3f(x, terrain[i][j], z);
+
             glTexCoord2f((float)i/size, (float)(j+1)/size);
             glVertex3f(x, terrain[i][j+1], z+step);
+
             glTexCoord2f((float)(i+1)/size, (float)(j+1)/size);
             glVertex3f(x+step, terrain[i+1][j+1], z+step);
+
             glTexCoord2f((float)(i+1)/size, (float)j/size);
             glVertex3f(x+step, terrain[i+1][j], z);
 

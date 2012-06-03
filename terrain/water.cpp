@@ -155,10 +155,10 @@ void Water::renderSolidWater(int s, float c[]) {
     GLfloat x = -(GLfloat)s;
     GLfloat z = -(GLfloat)s;
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(0, 0, 1.0, 1.0);
-    //glColor3ub(200, 200, 0);
+    // glEnable(GL_BLEND);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glColor4f(0, 0, 1.0, 0.1);
+    glColor3ub(200, 200, 200);
     glBegin(GL_QUADS);
     for (int i = 1; i < size - 2; ++i) {
         for (int j = 1; j < size - 2; ++j) {
@@ -183,7 +183,7 @@ void Water::renderSolidWater(int s, float c[]) {
     }
 
     glEnd();
-    glDisable(GL_BLEND);
+    // glDisable(GL_BLEND);
 
 }
 
