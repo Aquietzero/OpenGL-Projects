@@ -1,15 +1,15 @@
 #include "camera.h"
 
 const Vector3D<GLfloat> Camera3D::FRONT = Vector3D<GLfloat>(0, 0, -1.0);
-const Vector3D<GLfloat> Camera3D::BACK = Vector3D<GLfloat>(0, 0, 1.0);
-const Vector3D<GLfloat> Camera3D::UP = Vector3D<GLfloat>(0, 1.0, 0);
-const Vector3D<GLfloat> Camera3D::DOWN = Vector3D<GLfloat>(0, -1.0, 0);
-const Vector3D<GLfloat> Camera3D::LEFT = Vector3D<GLfloat>(-1.0, 0, 0);
+const Vector3D<GLfloat> Camera3D::BACK  = Vector3D<GLfloat>(0, 0, 1.0);
+const Vector3D<GLfloat> Camera3D::UP    = Vector3D<GLfloat>(0, 1.0, 0);
+const Vector3D<GLfloat> Camera3D::DOWN  = Vector3D<GLfloat>(0, -1.0, 0);
+const Vector3D<GLfloat> Camera3D::LEFT  = Vector3D<GLfloat>(-1.0, 0, 0);
 const Vector3D<GLfloat> Camera3D::RIGHT = Vector3D<GLfloat>(1.0, 0, 0);
 
-const Vector3D<GLfloat> Camera3D::POSITION = Vector3D<GLfloat>(0, 0, 0);
+const Vector3D<GLfloat> Camera3D::POSITION       = Vector3D<GLfloat>(0, 0, 0);
 const Vector3D<GLfloat> Camera3D::VIEW_DIRECTION = Vector3D<GLfloat>(0, 0, -1.0);
-const Vector3D<GLfloat> Camera3D::ROTATION = Vector3D<GLfloat>(0, 0, 0);
+const Vector3D<GLfloat> Camera3D::ROTATION       = Vector3D<GLfloat>(0, 0, 0);
 
 Camera3D::Camera3D() {
 
@@ -47,6 +47,14 @@ void Camera3D::render() {
 
 void Camera3D::move(Vector3D<GLfloat> direction) {
     position = position + direction;
+}
+
+void Camera3D::moveForwardDirection() {
+    position = position + viewDirection * 0.05;
+}
+
+void Camera3D::moveBackwardDirection() {
+    position = position - viewDirection * 0.05;
 }
 
 void Camera3D::moveUp(float distance) {

@@ -50,6 +50,9 @@ class Camera3D {
         void rotateZ(float);
         
         void move(Vector3D<GLfloat>);
+        void moveForwardDirection();
+        void moveBackwardDirection();
+
         void moveUp(float);
         void moveDown(float);
         void moveLeft(float);

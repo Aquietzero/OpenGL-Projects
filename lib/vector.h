@@ -3,6 +3,8 @@
 
 #include "stdincludes.h"
 
+#define AVG4(x, y, m, n) ((x + y + m + n)/4.0)
+
 /* Class Vector2D will not provide implicit ceocion. So make sure that
  * you don't add, subtraction different kinds of vectors, even though
  * they are of built-in types.
@@ -211,6 +213,7 @@ GLfloat* getNormalVector3f(
         GLfloat x3, GLfloat y3, GLfloat z3);
 
 GLfloat* getNormalVector3fv(GLfloat v1[], GLfloat v2[], GLfloat v3[]);
+GLfloat* getAvgVector4f(GLfloat v1[], GLfloat v2[], GLfloat v3[], GLfloat v4[]);
 
 
 #endif

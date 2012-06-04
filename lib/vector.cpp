@@ -51,3 +51,21 @@ GLfloat* getNormalVector3fv(GLfloat v1[], GLfloat v2[], GLfloat v3[]) {
                              v3[0], v3[1], v3[2]);
 
 }
+
+GLfloat* getAvgVector4f(GLfloat v1[], GLfloat v2[], GLfloat v3[], GLfloat v4[]) {
+
+    GLfloat *v = new GLfloat[3];
+
+    v[0] = AVG4(v1[0], v2[0], v3[0], v4[0]);
+    v[1] = AVG4(v1[1], v2[1], v3[1], v4[1]);
+    v[2] = AVG4(v1[2], v2[2], v3[2], v4[2]);
+
+    GLfloat length = sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
+    
+    v[0] /= length;
+    v[1] /= length;
+    v[2] /= length;
+
+    return v;
+
+}
