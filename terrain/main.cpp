@@ -47,10 +47,15 @@ void renderScene() {
     camera.render();
 
     GLfloat color[3] = {0.5, 0.5, 0.5};
-    glBindTexture(GL_TEXTURE_2D, 2);
+
+    // glBindTexture(GL_TEXTURE_2D, 2);
+    glPushMatrix();
     water->render(8, color, Water::SOLID);
+    glPopMatrix();
     glBindTexture(GL_TEXTURE_2D, 1);
+    glPushMatrix();
     terrain->render(8, color, Terrain::SOLID);
+    glPopMatrix();
 
     /*  
     glPushMatrix();
@@ -112,10 +117,12 @@ void keyDown(unsigned char key, int x, int y) {
 
     switch(key) {
         case 'w':
-            camera.moveForward(0.1);
+            // camera.moveForward(0.1);
+            camera.moveForwardDirection();
             break;
         case 's':
-            camera.moveBackward(0.1);
+            //camera.moveBackward(0.1);
+            camera.moveBackwardDirection();
             break;
         case 'r':
             camera.moveUp(0.1);
