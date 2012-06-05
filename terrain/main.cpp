@@ -3,11 +3,19 @@
 #include "camera/camera.h"
 #include "tree/tree.h"
 #include "water.h"
+#include "sky.h"
+#include "glm/glm.h"
+#include "glm/nv_math.h"
+#include "glm/nv_algebra.h"
 
+// Generate
 Terrain *terrain;
-Water *water;
-FractalTree *tree1;
-FractalTree *tree2;
+Water   *water;
+Sky     *sky;
+
+// Load in
+char castleOBJ[] = "obj/Palma/Palma.obj";
+GLMmodel *castle = NULL;
 
 Vector3D<GLfloat> cameraPos(2.0, 4.0, 6.0);
 Vector3D<GLfloat> cameraViewDirection(-2.0, -2.0, -8.0);
@@ -18,7 +26,7 @@ const GLint FPS = 15;
 
 void setupTerrain() {
 
-    terrain = new Terrain(256, 2.0, 1.2);
+    terrain = new Terrain(256, 3.0, 1.2);
     srand(unsigned(time(NULL)));
     terrain->generate();
 
@@ -30,13 +38,27 @@ void setupWater() {
 
 }
 
-void setupTree() {
+void setupSky() {
+    
+    sky = new Sky();
 
-    tree1 = new FractalTree(50, 0.7, 0.5, 0.03, 3);
-    tree1->generate(1.0, 0.2, 0, 0, 0, 0);
+}
 
-    tree2 = new FractalTree(50, 0.7, 0.5, 0.03, 3);
-    tree2->generate(0.6, 0.2, 0, 0, 0, 0);
+void setupOBJ() {
+
+    castle = glmReadOBJ(castleOBJ);
+    if (!castle) exit(0);
+    glmUnitize(castle);
+    glmFacetNormals(castle);
+    glmVertexNormals(castle, 90.0);
+
+}
+
+void setupObjects() {
+
+    setupTerrain();
+    setupWater();
+    setupOBJ();
 
 }
 
@@ -48,39 +70,25 @@ void renderScene() {
 
     GLfloat color[3] = {0.5, 0.5, 0.5};
 
-    // glBindTexture(GL_TEXTURE_2D, 2);
+    glBindTexture(GL_TEXTURE_2D, 3);
     glPushMatrix();
-    water->render(8, color, Water::SOLID);
+    sky->render(8);
     glPopMatrix();
+
+    glBindTexture(GL_TEXTURE_2D, 2);
+    glPushMatrix();
+    water->render(10, color, Water::SOLID);
+    glPopMatrix();
+
     glBindTexture(GL_TEXTURE_2D, 1);
     glPushMatrix();
     terrain->render(8, color, Terrain::SOLID);
     glPopMatrix();
 
-    /*  
     glPushMatrix();
-    glTranslatef(-4 + 8.0/256*20, terrain->terrain[20][15], -4 + 8.0/256*15);
-    tree1->render();
+    // glTranslatef(-8 + 16.0/256*20, terrain->terrain[20][15], -8 + 16.0/256*15);
+    glmDraw(castle, GLM_SMOOTH | GLM_MATERIAL);
     glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(-4 + 8.0/256*50, terrain->terrain[50][35], -4 + 8.0/256*35);
-    tree2->render();
-    glPopMatrix();
-    */
-
-    /*
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(0, 0, 1.0, 0.8);
-    glBegin(GL_QUADS);
-        glVertex3f(-40.0, 0.0, -40.0);
-        glVertex3f(-40.0, 0.0,  40.0);
-        glVertex3f( 40.0, 0.0,  40.0);
-        glVertex3f( 40.0, 0.0, -40.0);
-    glEnd();
-    glDisable(GL_BLEND);
-    */
 
     glutSwapBuffers();
 
@@ -165,9 +173,7 @@ int main(int argc, char **argv) {
     glutCreateWindow("Terrain");
 
     setupRC();
-    setupTerrain();
-    setupTree();
-    setupWater();
+    setupObjects();
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
     glutKeyboardFunc(keyDown);

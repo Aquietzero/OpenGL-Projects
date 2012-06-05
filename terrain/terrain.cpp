@@ -192,6 +192,7 @@ void Terrain::renderSolidTerrain(int s, float c[]) {
     GLfloat *nv;
 
     glColor3fv(c);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
     glBegin(GL_QUADS);
     for (int i = 0; i < size - 1; ++i) {

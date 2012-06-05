@@ -56,6 +56,7 @@ void setupTexture() {
         iWidth = 0;
         iHeight = 0;
 
+
         glBindTexture(GL_TEXTURE_2D, textures[i]);
 
         // Load texture

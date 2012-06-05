@@ -14,14 +14,17 @@
 
 #define PI 3.1415926
 
-#define TEXTURE_COUNT  2
+#define TEXTURE_COUNT  3
 #define GROUND_TEXTURE 0
 #define WATER_TEXTURE  1
+#define SKY_TEXTURE    2
 #define GROUND_TEXTURE_SRC "textures/sand.bmp"
 #define WATER_TEXTURE_SRC  "textures/water.bmp"
+#define SKY_TEXTURE_SRC    "textures/sky.bmp"
 
 static GLuint textures[TEXTURE_COUNT];
-static const char *textures_src[TEXTURE_COUNT] = {GROUND_TEXTURE_SRC, WATER_TEXTURE_SRC};
+static const char *textures_src[TEXTURE_COUNT] 
+    = {GROUND_TEXTURE_SRC, WATER_TEXTURE_SRC, SKY_TEXTURE_SRC};
 
 using namespace std;
 

@@ -60,6 +60,9 @@ Water::Water(const int s, const float max_h, const float r) {
 Water::~Water() {
 
     delete [] water;
+    delete [] waterPrev;
+    delete [] waveFunc;
+    delete [] waveFuncPrev;
 
 }
 
@@ -158,6 +161,8 @@ void Water::renderSolidWater(int s, float c[]) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glColor4f(0.5, 0.5, 0.65, 0.9);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
     // glColor3ub(200, 200, 200);
     glBegin(GL_QUADS);
     for (int i = 1; i < size - 2; ++i) {
