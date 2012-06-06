@@ -89,9 +89,11 @@ void renderScene() {
     terrain->render(WORLD_SIZE, color, Terrain::SOLID);
     glPopMatrix();
 
+    // Render castle
     glPushMatrix();
     glTranslatef(15, 1.5, -35);
     glScalef(3, 3, 3);
+    // glmDraw(castle, GLM_SMOOTH);
     glmDraw(castle, GLM_SMOOTH | GLM_MATERIAL);
     glPopMatrix();
 
