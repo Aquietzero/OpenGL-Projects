@@ -49,12 +49,12 @@ void Camera3D::move(Vector3D<GLfloat> direction) {
     position = position + direction;
 }
 
-void Camera3D::moveForwardDirection() {
-    position = position + viewDirection * 0.05;
+void Camera3D::moveForwardDirection(float distance) {
+    position = position + viewDirection * distance;
 }
 
-void Camera3D::moveBackwardDirection() {
-    position = position - viewDirection * 0.05;
+void Camera3D::moveBackwardDirection(float distance) {
+    position = position - viewDirection * distance;
 }
 
 void Camera3D::moveUp(float distance) {
