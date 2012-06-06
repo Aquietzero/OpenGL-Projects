@@ -23,6 +23,8 @@ Terrain::Terrain(const int s, const float max_h, const float r)
 
 Terrain::~Terrain() {
 
+    for (int i = 0; i < size; ++i)
+        delete [] terrain[i];
     delete [] terrain;
 
 }
@@ -191,9 +193,7 @@ void Terrain::renderSolidTerrain(int s, float c[]) {
     GLfloat z = -(GLfloat)s;
     GLfloat *nv;
 
-    glColor3fv(c);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
     glBegin(GL_QUADS);
     for (int i = 0; i < size - 1; ++i) {
         for (int j = 0; j < size - 1; ++j) {
@@ -218,6 +218,33 @@ void Terrain::renderSolidTerrain(int s, float c[]) {
         z = -(GLfloat)s;
     }
     glEnd();
+
+}
+
+Vector2D<GLint>* Terrain::perfectSpots(int num) {
+
+    // Limit the largest number of perfect spots, or it
+    // won't be perfect, it just ordinary.
+    num = num > 10 ? 10 : num;
+
+    Vector2D<GLint>* spots = new Vector2D<GLint>[num];
+    Vector2D<GLint> max, offset;
+
+    for (int i = 5; i < size - 5; ++i)
+        for (int j = 5; j < size - 5; ++j) {
+            if (terrain[i][j] > terrain[max.x][max.y]) {
+                max.x = i;
+                max.y = j;
+            }
+        }
+
+    spots[0] = max;
+    for (int i = 1; i < num; ++i) {
+        offset = Vector2D<GLint>(getRandom(-5, 5), getRandom(-5, 5));
+        spots[i] = max + offset;
+    }
+
+    return spots;
 
 }
 

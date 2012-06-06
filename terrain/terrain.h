@@ -58,7 +58,7 @@ class Terrain {
         void square(int x, int y, int step, float roughness);
         void smooth();
 
-        Vector2D<GLfloat> perfectSpot();        
+        Vector2D<GLint>* perfectSpots(int num);        
 
         void render(int size, float c[], RENDER_TYPE type=WIRE);
         void renderWireTerrain(int size, float color[]);

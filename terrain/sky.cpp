@@ -23,6 +23,14 @@ void Sky::render(GLint width) {
     glColor3ub(0, 0, 255);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+
+    glutSolidSphere(width, 50, 50);
+    /*
     glBegin(GL_QUADS);
         // Left
         glTexCoord2d(0, 0);
@@ -74,5 +82,6 @@ void Sky::render(GLint width) {
         glTexCoord2d(1/3.0, 1/3.0);
         glVertex3f(-width, 3.0*width/4, -width);
     glEnd();
+    */
 
 }

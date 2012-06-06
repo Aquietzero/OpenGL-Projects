@@ -13,6 +13,9 @@ Terrain *terrain;
 Water   *water;
 Sky     *sky;
 
+const int tree_num = 4;
+Vector2D<GLint> *tree_spot;
+
 // Load in
 char castleOBJ[] = "obj/Palma/Palma.obj";
 GLMmodel *castle = NULL;
@@ -26,15 +29,16 @@ const GLint FPS = 15;
 
 void setupTerrain() {
 
-    terrain = new Terrain(256, 3.0, 1.2);
+    terrain = new Terrain(256, 8.0, 1.2);
     srand(unsigned(time(NULL)));
     terrain->generate();
+    tree_spot = terrain->perfectSpots(tree_num);
 
 }
 
 void setupWater() {
 
-    water = new Water(32, 2.0, 1.3);
+    water = new Water(64, 3.0, 0.3);
 
 }
 
@@ -70,25 +74,33 @@ void renderScene() {
 
     GLfloat color[3] = {0.5, 0.5, 0.5};
 
+    // Render sky
     glBindTexture(GL_TEXTURE_2D, 3);
     glPushMatrix();
-    sky->render(8);
+    sky->render(WORLD_SIZE);
     glPopMatrix();
 
+    // Render water
     glBindTexture(GL_TEXTURE_2D, 2);
     glPushMatrix();
-    water->render(10, color, Water::SOLID);
+    water->render(WORLD_SIZE + 2, color, Water::SOLID);
     glPopMatrix();
 
+    // Render terrain
     glBindTexture(GL_TEXTURE_2D, 1);
     glPushMatrix();
-    terrain->render(8, color, Terrain::SOLID);
+    terrain->render(WORLD_SIZE, color, Terrain::SOLID);
     glPopMatrix();
 
-    glPushMatrix();
-    // glTranslatef(-8 + 16.0/256*20, terrain->terrain[20][15], -8 + 16.0/256*15);
-    glmDraw(castle, GLM_SMOOTH | GLM_MATERIAL);
-    glPopMatrix();
+    /*  
+    for (int i = 0; i < tree_num; ++i) {
+        glPushMatrix();
+        glTranslatef(-8 + 16.0/256*tree_spot[i].x, terrain->terrain[tree_spot[i].x][tree_spot[i].y] + 0.7, -8 + 16.0/256*tree_spot[i].y);
+        glColor3ub(0, 255, 0);
+        glmDraw(castle, GLM_SMOOTH | GLM_MATERIAL);
+        glPopMatrix();
+    }
+    */
 
     glutSwapBuffers();
 

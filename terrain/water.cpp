@@ -59,6 +59,13 @@ Water::Water(const int s, const float max_h, const float r) {
 
 Water::~Water() {
 
+    for (int i = 0; i < size; ++i) {
+        delete [] water[i];
+        delete [] waterPrev[i];
+        delete [] waveFunc[i];
+        delete [] waveFuncPrev[i];
+    }
+
     delete [] water;
     delete [] waterPrev;
     delete [] waveFunc;
