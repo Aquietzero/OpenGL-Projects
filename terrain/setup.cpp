@@ -19,7 +19,7 @@ void setupLightAndMaterial() {
 
     GLfloat ambientLight[] = {0.5, 0.5, 0.5, 1.0};
     GLfloat diffuseLight[] = {0.7, 0.7, 0.7, 1.0};
-    GLfloat specularLight[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat specularLight[] = {1.0, 1.0, 0.0, 1.0};
     GLfloat lightSource[]  = {14.0, 10.0, 14.0, 1.0};
 
     glEnable(GL_LIGHTING);
@@ -85,12 +85,12 @@ void setupTexture() {
 
 void setupFog() {
 
-    GLfloat fog[] = {100, 0, 0, 0.1};
+    GLfloat fog[] = {0.9, 0.5, 0, 0.1};
 
     glEnable(GL_FOG);
     glFogfv(GL_FOG_COLOR, fog);
-    glFogf(GL_FOG_START, 20.0);
-    glFogf(GL_FOG_END, 150.0);
+    glFogf(GL_FOG_START, 0.0);
+    glFogf(GL_FOG_END, 60.0);
     glFogi(GL_FOG_MODE, GL_LINEAR);
 
 }

@@ -1,0 +1,236 @@
+# 3ds Max Wavefront OBJ Exporter v0.94b - (c)2007 guruware
+# File Created: 25.06.2008 19:25:16
+
+newmtl dx_dx_est02
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\est9.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\est9.jpg
+
+newmtl dx_dx_arc03
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\Golden_Pack_Vol3-1\b3d_x_medpack\castle\arc18.jpg
+	map_Kd D:\Texture\250508\Golden_Pack_Vol3-1\b3d_x_medpack\castle\arc18.jpg
+
+newmtl dx_dx_est01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\est10.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\est10.jpg
+
+newmtl dx_dx_window_withstone01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\window_withstone2.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\window_withstone2.jpg
+
+newmtl dx_dx_castle01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\Golden_Pack_Vol3-1\b3d_x_medpack\castle\castle.jpg
+	map_Kd D:\Texture\250508\Golden_Pack_Vol3-1\b3d_x_medpack\castle\castle.jpg
+
+newmtl dx_dx_cottage_roof01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.6275 0.6275 0.6275
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\cottage_roof.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\cottage_roof.jpg
+
+newmtl dx_dx_epil01
+	Ns 39.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.2000 0.2000 0.2000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\epil1.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\epil1.jpg
+
+newmtl dx_dx_epil1_b01
+	Ns 24.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.2100 0.2100 0.2100
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\epil1_b.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\epil1_b.jpg
+
+newmtl dx_dx_arc01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\arc019.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\arc019.jpg
+
+newmtl dx_dx_ear2_tilepattern_bmp01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\ear2_tilepattern_bmp.bmp
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\ear2_tilepattern_bmp.bmp
+
+newmtl dx_dx_efl01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\efl2.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\efl2.jpg
+
+newmtl dx_dx_arc02
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\Golden_Pack_Vol3-1\b3d_x_medpack\castle\arc14.jpg
+	map_Kd D:\Texture\250508\Golden_Pack_Vol3-1\b3d_x_medpack\castle\arc14.jpg
+
+newmtl dx_dx_ti_01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\ti_42.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\ti_42.jpg
+
+newmtl dx_dx_flag01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\flag.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\flag.jpg
+
+newmtl dx_dx_th_portugal_edit_lt01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\th_portugal_edit-lt.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\th_portugal_edit-lt.jpg
+
+newmtl dx_dx_th_mc_door_01
+	Ns 0.0000
+	Ni 1.0000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Texture\250508\castle_pack\castle pack\b3d_x\th_mc_door_20.jpg
+	map_Kd D:\Texture\250508\castle_pack\castle pack\b3d_x\th_mc_door_20.jpg
+
+newmtl wire_192192192
+	Ns 32
+	d 1
+	Tr 1
+	Tf 1 1 1
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.7529 0.7529 0.7529
+	Ks 0.3500 0.3500 0.3500

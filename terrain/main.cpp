@@ -13,11 +13,8 @@ Terrain *terrain;
 Water   *water;
 Sky     *sky;
 
-const int tree_num = 4;
-Vector2D<GLint> *tree_spot;
-
 // Load in
-char castleOBJ[] = "obj/Palma/Palma.obj";
+char castleOBJ[] = "obj/castle.obj";
 GLMmodel *castle = NULL;
 
 Vector3D<GLfloat> cameraPos(2.0, 4.0, 6.0);
@@ -32,7 +29,6 @@ void setupTerrain() {
     terrain = new Terrain(256, 8.0, 1.2);
     srand(unsigned(time(NULL)));
     terrain->generate();
-    tree_spot = terrain->perfectSpots(tree_num);
 
 }
 
@@ -89,18 +85,15 @@ void renderScene() {
     // Render terrain
     glBindTexture(GL_TEXTURE_2D, 1);
     glPushMatrix();
+    // glTranslatef(-WORLD_SIZE/2.0, 0, -WORLD_SIZE/2.0);
     terrain->render(WORLD_SIZE, color, Terrain::SOLID);
     glPopMatrix();
 
-    /*  
-    for (int i = 0; i < tree_num; ++i) {
-        glPushMatrix();
-        glTranslatef(-8 + 16.0/256*tree_spot[i].x, terrain->terrain[tree_spot[i].x][tree_spot[i].y] + 0.7, -8 + 16.0/256*tree_spot[i].y);
-        glColor3ub(0, 255, 0);
-        glmDraw(castle, GLM_SMOOTH | GLM_MATERIAL);
-        glPopMatrix();
-    }
-    */
+    glPushMatrix();
+    glTranslatef(15, 1.5, -35);
+    glScalef(3, 3, 3);
+    glmDraw(castle, GLM_SMOOTH | GLM_MATERIAL);
+    glPopMatrix();
 
     glutSwapBuffers();
 
@@ -138,11 +131,11 @@ void keyDown(unsigned char key, int x, int y) {
     switch(key) {
         case 'w':
             // camera.moveForward(0.1);
-            camera.moveForwardDirection();
+            camera.moveForwardDirection(0.1);
             break;
         case 's':
             //camera.moveBackward(0.1);
-            camera.moveBackwardDirection();
+            camera.moveBackwardDirection(0.1);
             break;
         case 'r':
             camera.moveUp(0.1);
@@ -151,22 +144,22 @@ void keyDown(unsigned char key, int x, int y) {
             camera.moveDown(0.1);
             break;
         case 'j':
-            camera.rotateX(0.5);
+            camera.rotateX(1);
             break;
         case 'k':
-            camera.rotateX(-0.5);
+            camera.rotateX(-1);
             break;
         case 'h':
-            camera.rotateY(0.5);
+            camera.rotateY(1);
             break;
         case 'l':
-            camera.rotateY(-0.5);
+            camera.rotateY(-1);
             break;
         case 'q':
-            camera.rotateZ(0.5);
+            camera.rotateZ(1);
             break;
         case 'e':
-            camera.rotateZ(-0.5);
+            camera.rotateZ(-1);
             break;
 
     }

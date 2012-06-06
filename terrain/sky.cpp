@@ -30,6 +30,10 @@ void Sky::render(GLint width) {
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 
     glutSolidSphere(width, 50, 50);
+
+    glDisable(GL_TEXTURE_GEN_S);
+    glDisable(GL_TEXTURE_GEN_T);
+
     /*
     glBegin(GL_QUADS);
         // Left

@@ -26,7 +26,7 @@
 
 #define GROUND_TEXTURE_SRC "textures/sand.bmp"
 #define WATER_TEXTURE_SRC  "textures/water.bmp"
-#define SKY_TEXTURE_SRC    "textures/universe.bmp"
+#define SKY_TEXTURE_SRC    "textures/sunset.bmp"
 
 static GLuint textures[TEXTURE_COUNT];
 static const char *textures_src[TEXTURE_COUNT] 
