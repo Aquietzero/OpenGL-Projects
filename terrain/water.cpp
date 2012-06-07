@@ -127,7 +127,6 @@ void Water::renderWireWater(int s, float c[]) {
     GLfloat step = (GLfloat)2*s / size;
     GLfloat x = -(GLfloat)s;
     GLfloat y = -(GLfloat)s;
-    GLfloat *nv;
 
     // glColor3fv(c);
     glColor3ub(255, 255, 255);
@@ -135,8 +134,8 @@ void Water::renderWireWater(int s, float c[]) {
     glBegin(GL_LINES);
     for (int i = 0; i < size - 1; ++i) {
         for (int j = 0; j < size - 1; ++j) {
-            nv = getNormalVector2f(step, water[i+1][j]-water[i][j], 0,
-                                 0, water[i+1][j]-water[i+1][j+1], step);
+            GLfloat *nv = getNormalVector2f(step, water[i+1][j]-water[i][j], 0, 0,
+                                            water[i+1][j]-water[i+1][j+1], step);
             glNormal3fv(nv);
 
             glVertex3f(x, water[i][j], y);
@@ -151,6 +150,8 @@ void Water::renderWireWater(int s, float c[]) {
             glVertex3f(x+step, water[i+1][j], y);
             glVertex3f(x, water[i][j], y);
             y += step;
+
+            delete[] nv;
         }
         x += step;
         y = -(GLfloat)s;
@@ -175,19 +176,28 @@ void Water::renderSolidWater(int s, float c[]) {
     for (int i = 1; i < size - 2; ++i) {
         for (int j = 1; j < size - 2; ++j) {
 
-            glNormal3fv(getNormalVector(i, j, step, water));
+            GLfloat *nv1 = getNormalVector(i, j, step, water);
+            glNormal3fv(nv1);
             glVertex3f(x, water[i][j], z);
 
-            glNormal3fv(getNormalVector(i, j+1, step, water));
+            GLfloat *nv2 = getNormalVector(i, j+1, step, water);
+            glNormal3fv(nv2);
             glVertex3f(x, water[i][j+1], z+step);
             
-            glNormal3fv(getNormalVector(i+1, j+1, step, water));
+            GLfloat *nv3 = getNormalVector(i+1, j+1, step, water);
+            glNormal3fv(nv3);
             glVertex3f(x+step, water[i+1][j+1], z+step);
 
-            glNormal3fv(getNormalVector(i+1, j, step, water));
+            GLfloat *nv4 = getNormalVector(i+1, j, step, water);
+            glNormal3fv(nv4);
             glVertex3f(x+step, water[i+1][j], z);
 
             z += step;
+
+            delete[] nv1;
+            delete[] nv2;
+            delete[] nv3;
+            delete[] nv4;
         }
 
         x += step;
@@ -217,6 +227,10 @@ GLfloat* Water::getNormalVector(int i, int j, GLfloat step, GLfloat **water) {
 
     nvAvg = getAvgVector4f(nv1, nv2, nv3, nv4);
 
+    delete[] nv1;
+    delete[] nv2;
+    delete[] nv3;
+    delete[] nv4;
     return nvAvg;
 
 }

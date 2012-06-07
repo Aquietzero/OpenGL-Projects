@@ -12,12 +12,12 @@ Terrain::Terrain(const int s, const float max_h, const float r)
 
     // Allocate the terrain.
     terrain = new float*[size+1];
-    for (int i = 0; i <= size; ++i)
+    for (int i = 0; i <= size; ++i) {
         terrain[i] = new float[size+1];
 
-    for (int i = 0; i <= size; ++i)
         for (int j = 0; j <= size; ++j)
             terrain[i][j] = 0.0;
+    }
 
 }
 
@@ -155,15 +155,14 @@ void Terrain::renderWireTerrain(int s, float c[]) {
     GLfloat step = (GLfloat)2*s / size;
     GLfloat x = -(GLfloat)s;
     GLfloat y = -(GLfloat)s;
-    GLfloat *nv;
 
     glColor3fv(c);
 
     glBegin(GL_LINES);
     for (int i = 0; i < size - 1; ++i) {
         for (int j = 0; j < size - 1; ++j) {
-            nv = getNormalVector2f(step, terrain[i+1][j]-terrain[i][j], 0,
-                                 0, terrain[i+1][j]-terrain[i+1][j+1], step);
+            GLfloat *nv = getNormalVector2f(step, terrain[i+1][j]-terrain[i][j], 0, 0, 
+                                            terrain[i+1][j]-terrain[i+1][j+1], step);
             glNormal3fv(nv);
 
             glVertex3f(x, terrain[i][j], y);
@@ -178,6 +177,8 @@ void Terrain::renderWireTerrain(int s, float c[]) {
             glVertex3f(x+step, terrain[i+1][j], y);
             glVertex3f(x, terrain[i][j], y);
             y += step;
+
+            delete[] nv;
         }
         x += step;
         y = -(GLfloat)s;

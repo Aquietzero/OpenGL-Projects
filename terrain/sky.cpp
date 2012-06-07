@@ -20,6 +20,8 @@
 
 void Sky::render(GLint width) {
 
+    glFrontFace(GL_CW);
+
     glColor3ub(0, 0, 255);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 
@@ -34,6 +36,7 @@ void Sky::render(GLint width) {
     glDisable(GL_TEXTURE_GEN_S);
     glDisable(GL_TEXTURE_GEN_T);
 
+    glFrontFace(GL_CCW);
     /*
     glBegin(GL_QUADS);
         // Left

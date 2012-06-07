@@ -4,8 +4,8 @@
 void setupRC() {
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_COLOR_SUM);
 

@@ -83,8 +83,8 @@ void Camera3D::moveBackward(float distance) {
 
 void Camera3D::rotate(Vector3D<GLfloat> degreeV) {
     rotateX(degreeV.x);
-    rotateX(degreeV.y);
-    rotateX(degreeV.z);
+    rotateY(degreeV.y);
+    rotateZ(degreeV.z);
 }
 
 void Camera3D::rotateX(float degrees) {
