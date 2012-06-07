@@ -37,6 +37,7 @@ class Terrain {
 
         // The 2-d array which stores the height of points of the terrain.
         float **terrain;
+        float ***terrainPlaneNormals;
 
         // Auxiliary functions.
         inline float avg(float x1, float x2, float x3, float x4) { 
@@ -63,6 +64,7 @@ class Terrain {
         void render(int size, float c[], RENDER_TYPE type=WIRE);
         void renderWireTerrain(int size, float color[]);
         void renderSolidTerrain(int size, float color[]);
+        void setPlaneNormals(int s);
 
 };
 

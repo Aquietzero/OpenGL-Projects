@@ -29,12 +29,13 @@ void setupTerrain() {
     terrain = new Terrain(256, 8.0, 1.2);
     srand(unsigned(time(NULL)));
     terrain->generate();
+    terrain->setPlaneNormals(WORLD_SIZE);
 
 }
 
 void setupWater() {
 
-    water = new Water(64, 3.0, 0.3);
+    water = new Water(256, 3.0, 0.3);
 
 }
 
@@ -70,12 +71,6 @@ void renderScene() {
 
     GLfloat color[3] = {0.5, 0.5, 0.5};
 
-    // Render sky
-    glBindTexture(GL_TEXTURE_2D, 3);
-    glPushMatrix();
-    sky->render(WORLD_SIZE);
-    glPopMatrix();
-
     // Render water
     glBindTexture(GL_TEXTURE_2D, 2);
     glPushMatrix();
@@ -89,12 +84,18 @@ void renderScene() {
     terrain->render(WORLD_SIZE, color, Terrain::SOLID);
     glPopMatrix();
 
+    // Render sky
+    glBindTexture(GL_TEXTURE_2D, 3);
+    glPushMatrix();
+    // sky->render(WORLD_SIZE);
+    glPopMatrix();
+
     // Render castle
     glPushMatrix();
     glTranslatef(15, 1.5, -35);
     glScalef(3, 3, 3);
     // glmDraw(castle, GLM_SMOOTH);
-    glmDraw(castle, GLM_SMOOTH | GLM_MATERIAL);
+    //glmDraw(castle, GLM_SMOOTH | GLM_MATERIAL);
     glPopMatrix();
 
     glutSwapBuffers();

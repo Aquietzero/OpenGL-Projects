@@ -85,12 +85,12 @@ void setupTexture() {
 
 void setupFog() {
 
-    GLfloat fog[] = {0.9, 0.5, 0, 0.1};
+    GLfloat fog[] = {0.2, 0.2, 0.2, 0.5};
 
     glEnable(GL_FOG);
     glFogfv(GL_FOG_COLOR, fog);
     glFogf(GL_FOG_START, 0.0);
-    glFogf(GL_FOG_END, 60.0);
+    glFogf(GL_FOG_END, 40.0);
     glFogi(GL_FOG_MODE, GL_LINEAR);
 
 }

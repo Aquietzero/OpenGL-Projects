@@ -37,6 +37,8 @@ class Water {
         // The 2-d array which stores the heights of the water.
         float **water;
         float **waterPrev;
+        float ***waterVertexNormals;
+        float ***waterPlaneNormals;
         // The 2-d array which stores the waving function.
         float **waveFunc;
         float **waveFuncPrev;
@@ -54,9 +56,6 @@ class Water {
         void render(int size, float c[], RENDER_TYPE type=WIRE);
         void renderWireWater(int size, float color[]);
         void renderSolidWater(int size, float color[]);
-
-    private:
-        GLfloat* getNormalVector(int i, int j, GLfloat step, GLfloat **water);
 
 };
 

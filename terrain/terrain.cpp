@@ -12,11 +12,18 @@ Terrain::Terrain(const int s, const float max_h, const float r)
 
     // Allocate the terrain.
     terrain = new float*[size+1];
+    terrainPlaneNormals = new float**[size+1];
     for (int i = 0; i <= size; ++i) {
         terrain[i] = new float[size+1];
+        terrainPlaneNormals[i] = new float*[size+1];
 
-        for (int j = 0; j <= size; ++j)
+        for (int j = 0; j <= size; ++j) {
             terrain[i][j] = 0.0;
+            terrainPlaneNormals[i][j] = new float[3];
+            terrainPlaneNormals[i][j][0] = 0.0;
+            terrainPlaneNormals[i][j][1] = 1.0;
+            terrainPlaneNormals[i][j][2] = 0.0;
+        }
     }
 
 }
@@ -150,6 +157,16 @@ void Terrain::render(int s, float c[], RENDER_TYPE t) {
 
 }
 
+void Terrain::setPlaneNormals(int s) {
+
+    GLfloat step = (GLfloat)2*s / size;
+    for (int i = 0; i < size; ++i) 
+        for (int j = 0; j < size; ++j) 
+            getNormalVector2fv(0, terrain[i+1][j]-terrain[i][j], step,
+                               step, terrain[i+1][j+1]-terrain[i+1][j], 0, 
+                               terrainPlaneNormals[i][j]);
+
+}
 void Terrain::renderWireTerrain(int s, float c[]) {
 
     GLfloat step = (GLfloat)2*s / size;
@@ -159,32 +176,34 @@ void Terrain::renderWireTerrain(int s, float c[]) {
     glColor3fv(c);
 
     glBegin(GL_LINES);
-    for (int i = 0; i < size - 1; ++i) {
-        for (int j = 0; j < size - 1; ++j) {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            /* 
             GLfloat *nv = getNormalVector2f(step, terrain[i+1][j]-terrain[i][j], 0, 0, 
                                             terrain[i+1][j]-terrain[i+1][j+1], step);
             glNormal3fv(nv);
+            */
+            glNormal3fv(terrainPlaneNormals[i][j]);
 
             glVertex3f(x, terrain[i][j], y);
-            glVertex3f(x, terrain[i][j+1], y+step);
+            glVertex3f(x, terrain[i+1][j], y+step);
 
-            glVertex3f(x, terrain[i][j+1], y+step);
+            glVertex3f(x, terrain[i+1][j], y+step);
             glVertex3f(x+step, terrain[i+1][j+1], y+step);
 
             glVertex3f(x+step, terrain[i+1][j+1], y+step);
-            glVertex3f(x+step, terrain[i+1][j], y);
+            glVertex3f(x+step, terrain[i][j+1], y);
 
-            glVertex3f(x+step, terrain[i+1][j], y);
+            glVertex3f(x+step, terrain[i][j+1], y);
             glVertex3f(x, terrain[i][j], y);
             y += step;
 
-            delete[] nv;
+            //delete[] nv;
         }
         x += step;
         y = -(GLfloat)s;
     }
     glEnd();
-
 }
 
 void Terrain::renderSolidTerrain(int s, float c[]) {
@@ -192,16 +211,21 @@ void Terrain::renderSolidTerrain(int s, float c[]) {
     GLfloat step = (GLfloat)2*s / size;
     GLfloat x = -(GLfloat)s;
     GLfloat z = -(GLfloat)s;
-    GLfloat *nv;
+    //GLfloat *nv;
 
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glColor4f(0.2, 0.2, 0.45, 0.8);
 
     glBegin(GL_QUADS);
-    for (int i = 0; i < size - 1; ++i) {
-        for (int j = 0; j < size - 1; ++j) {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            /*
             nv = getNormalVector2f(0, terrain[i+1][j]-terrain[i][j], step,
                                    step, terrain[i+1][j]-terrain[i+1][j+1], 0);
             glNormal3fv(nv);
+            */
+            glNormal3fv(terrainPlaneNormals[i][j]);
+            
             glTexCoord2f((float)i/size, (float)j/size);
             glVertex3f(x, terrain[i][j], z);
 
@@ -213,6 +237,7 @@ void Terrain::renderSolidTerrain(int s, float c[]) {
 
             glTexCoord2f((float)(i+1)/size, (float)j/size);
             glVertex3f(x+step, terrain[i+1][j], z);
+
 
             z += step;
         }
