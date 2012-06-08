@@ -191,40 +191,40 @@ void Water::renderSolidWater(int s, float c[]) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glColor4f(0.5, 0.5, 0.5, 0.2);
+    glColor4f(0.25, 0.2, 0.85, 0.7);
 
     // glColor3ub(200, 200, 200);
     glBegin(GL_QUADS);
     for (int i = 1; i < size; ++i) {
-            for (int j = 1; j < size; ++j) { 
-               getNormalVector2fv(0,    water[i+1][j]-water[i][j], step,
-                                  step, water[i+1][j+1]-water[i+1][j],     0,
-                                  waterPlaneNormals[i][j]);
+        for (int j = 1; j < size; ++j) { 
+            getNormalVector2fv(0,    water[i+1][j]-water[i][j], step,
+                    step, water[i+1][j+1]-water[i+1][j],     0,
+                    waterPlaneNormals[i][j]);
 
-               getAvgVector4f(waterPlaneNormals[i-1][j-1],
-                              waterPlaneNormals[i][j-1],
-                              waterPlaneNormals[i-1][j],
-                              waterPlaneNormals[i][j],
-                              waterVertexNormals[i][j]);
+            getAvgVector4f(waterPlaneNormals[i-1][j-1],
+                    waterPlaneNormals[i][j-1],
+                    waterPlaneNormals[i-1][j],
+                    waterPlaneNormals[i][j],
+                    waterVertexNormals[i][j]);
 
-               glNormal3fv(waterVertexNormals[i-1][j-1]);
-               glVertex3f(x-step, water[i-1][j-1], z-step);
+            glNormal3fv(waterVertexNormals[i-1][j-1]);
+            glVertex3f(x-step, water[i-1][j-1], z-step);
 
-               glNormal3fv(waterVertexNormals[i-1][j]);
-               glVertex3f(x-step, water[i-1][j], z);
+            glNormal3fv(waterVertexNormals[i-1][j]);
+            glVertex3f(x-step, water[i-1][j], z);
 
-               glNormal3fv(waterVertexNormals[i][j]);
-               glVertex3f(x, water[i][j], z);
+            glNormal3fv(waterVertexNormals[i][j]);
+            glVertex3f(x, water[i][j], z);
 
-               glNormal3fv(waterVertexNormals[i][j-1]);
-               glVertex3f(x, water[i][j-1], z-step);
+            glNormal3fv(waterVertexNormals[i][j-1]);
+            glVertex3f(x, water[i][j-1], z-step);
 
 
-               z += step;
-            }
-            x += step;
-            z = -(GLfloat)s;
+            z += step;
         }
+        x += step;
+        z = -(GLfloat)s;
+    }
     glEnd();    
 
     glDisable(GL_BLEND);

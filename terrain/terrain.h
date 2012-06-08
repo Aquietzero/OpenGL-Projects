@@ -20,7 +20,7 @@ class Terrain {
 
     // Public default attributes.
     public:
-        static const int DEFAULT_SIZE  = 256;
+        static const int   DEFAULT_SIZE  = 256;
         static const float DEFAULT_HEIGHT = 1.0;
         static const float DEFAULT_ROUGHNESS = 0.9;
         enum RENDER_TYPE{ SOLID, WIRE };

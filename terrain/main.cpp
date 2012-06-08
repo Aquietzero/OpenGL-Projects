@@ -4,6 +4,7 @@
 #include "tree/tree.h"
 #include "water.h"
 #include "sky.h"
+#include "smoke.h"
 #include "glm/glm.h"
 #include "glm/nv_math.h"
 #include "glm/nv_algebra.h"
@@ -12,6 +13,7 @@
 Terrain *terrain;
 Water   *water;
 Sky     *sky;
+Smoke   *smoke;
 
 // Load in
 char castleOBJ[] = "obj/castle.obj";
@@ -22,7 +24,7 @@ Vector3D<GLfloat> cameraViewDirection(-2.0, -2.0, -8.0);
 Vector3D<GLfloat> upDirection(0.0, 1.0, 0.0);
 
 Camera3D camera(cameraPos, cameraViewDirection, upDirection);
-const GLint FPS = 15;
+const GLint FPS = 1;
 
 void setupTerrain() {
 
@@ -45,6 +47,12 @@ void setupSky() {
 
 }
 
+void setupSmoke() {
+
+    smoke = new Smoke(128, 1.5, 1.1);
+
+}
+
 void setupOBJ() {
 
     castle = glmReadOBJ(castleOBJ);
@@ -59,6 +67,7 @@ void setupObjects() {
 
     setupTerrain();
     setupWater();
+    setupSmoke();
     setupOBJ();
 
 }
@@ -71,12 +80,6 @@ void renderScene() {
 
     GLfloat color[3] = {0.5, 0.5, 0.5};
 
-    // Render water
-    glBindTexture(GL_TEXTURE_2D, 2);
-    glPushMatrix();
-    water->render(WORLD_SIZE + 2, color, Water::SOLID);
-    glPopMatrix();
-
     // Render terrain
     glBindTexture(GL_TEXTURE_2D, 1);
     glPushMatrix();
@@ -87,7 +90,19 @@ void renderScene() {
     // Render sky
     glBindTexture(GL_TEXTURE_2D, 3);
     glPushMatrix();
-    // sky->render(WORLD_SIZE);
+    sky->render(WORLD_SIZE);
+    glPopMatrix();
+
+    // Render water
+    glBindTexture(GL_TEXTURE_2D, 2);
+    glPushMatrix();
+    water->render(WORLD_SIZE + 2, color, Water::SOLID);
+    glPopMatrix();
+
+    // Render smoke 
+    glBindTexture(GL_TEXTURE_2D, 2);
+    glPushMatrix();
+    smoke->render(WORLD_SIZE/3.0);
     glPopMatrix();
 
     // Render castle
@@ -124,6 +139,7 @@ void changeSize(GLsizei w, GLsizei h) {
 void waving(int value) {
 
     water->wave();
+    smoke->evolve();
     glutPostRedisplay();
     glutTimerFunc(1000.0/FPS, waving, 1);
 
