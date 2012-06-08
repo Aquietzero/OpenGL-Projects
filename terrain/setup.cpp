@@ -11,7 +11,7 @@ void setupRC() {
 
     setupLightAndMaterial();
     setupTexture();
-//    setupFog();
+    setupFog();
 
 }
 
@@ -85,12 +85,14 @@ void setupTexture() {
 
 void setupFog() {
 
-    GLfloat fog[] = {0.5, 0.4, 0.0, 0.1};
+    GLfloat fog[] = {0.7, 0.75, 0.8, 0.05};
 
     glEnable(GL_FOG);
     glFogfv(GL_FOG_COLOR, fog);
-    glFogf(GL_FOG_START, 0.0);
-    glFogf(GL_FOG_END, 40.0);
-    glFogi(GL_FOG_MODE, GL_LINEAR);
+    //glFogf(GL_FOG_START, 5.0);
+    //glFogf(GL_FOG_END, 40.0);
+    //glFogi(GL_FOG_MODE, GL_LINEAR);
+    glFogf(GL_FOG_DENSITY, 0.04);
+    glFogi(GL_FOG_MODE, GL_EXP);
 
 }

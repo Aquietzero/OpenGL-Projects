@@ -191,7 +191,9 @@ void Water::renderSolidWater(int s, float c[]) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glColor4f(0.25, 0.2, 0.85, 0.7);
+    glColor4f(0.30, 0.40, 0.55, 0.8);
+    //glColor4f(0.32, 0.40, 0.53, 0.75);
+    //glColor4f(0.45, 0.55, 0.80, 0.8);
 
     // glColor3ub(200, 200, 200);
     glBegin(GL_QUADS);

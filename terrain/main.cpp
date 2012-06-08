@@ -13,7 +13,6 @@
 Terrain *terrain;
 Water   *water;
 Sky     *sky;
-Smoke   *smoke;
 
 // Load in
 char castleOBJ[] = "obj/castle.obj";
@@ -24,7 +23,7 @@ Vector3D<GLfloat> cameraViewDirection(-2.0, -2.0, -8.0);
 Vector3D<GLfloat> upDirection(0.0, 1.0, 0.0);
 
 Camera3D camera(cameraPos, cameraViewDirection, upDirection);
-const GLint FPS = 1;
+const GLint FPS = 15;
 
 void setupTerrain() {
 
@@ -47,12 +46,6 @@ void setupSky() {
 
 }
 
-void setupSmoke() {
-
-    smoke = new Smoke(128, 1.5, 1.1);
-
-}
-
 void setupOBJ() {
 
     castle = glmReadOBJ(castleOBJ);
@@ -67,7 +60,6 @@ void setupObjects() {
 
     setupTerrain();
     setupWater();
-    setupSmoke();
     setupOBJ();
 
 }
@@ -97,12 +89,6 @@ void renderScene() {
     glBindTexture(GL_TEXTURE_2D, 2);
     glPushMatrix();
     water->render(WORLD_SIZE + 2, color, Water::SOLID);
-    glPopMatrix();
-
-    // Render smoke 
-    glBindTexture(GL_TEXTURE_2D, 2);
-    glPushMatrix();
-    smoke->render(WORLD_SIZE/3.0);
     glPopMatrix();
 
     // Render castle
@@ -139,7 +125,6 @@ void changeSize(GLsizei w, GLsizei h) {
 void waving(int value) {
 
     water->wave();
-    smoke->evolve();
     glutPostRedisplay();
     glutTimerFunc(1000.0/FPS, waving, 1);
 
