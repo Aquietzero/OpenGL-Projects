@@ -61,9 +61,9 @@ class Terrain {
 
         Vector2D<GLint>* perfectSpots(int num);        
 
-        void render(int size, float c[], RENDER_TYPE type=WIRE);
+        void render(int size, float c[], GLuint texture, RENDER_TYPE type=WIRE);
         void renderWireTerrain(int size, float color[]);
-        void renderSolidTerrain(int size, float color[]);
+        void renderSolidTerrain(int size, float color[], GLuint texture);
         void setPlaneNormals(int s);
 
 };

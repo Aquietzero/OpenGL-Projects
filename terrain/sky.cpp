@@ -18,11 +18,11 @@
 
 #include "sky.h"
 
-void Sky::render(GLint width) {
+void Sky::render(GLint width, GLuint texture) {
 
     glFrontFace(GL_CW);
 
-    glColor3ub(0, 0, 255);
+    glBindTexture(GL_TEXTURE_2D, texture);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 
     glEnable(GL_TEXTURE_GEN_S);
@@ -38,58 +38,5 @@ void Sky::render(GLint width) {
     glDisable(GL_TEXTURE_GEN_T);
 
     glFrontFace(GL_CCW);
-    /*
-    glBegin(GL_QUADS);
-        // Left
-        glTexCoord2d(0, 0);
-        glVertex3f(-width, 0, -width);
-        glTexCoord2d(1/3.0, 1/3.0);
-        glVertex3f(-width, 3.0*width/4, -width);
-        glTexCoord2d(1/3.0, 2/3.0);
-        glVertex3f(-width, 3.0*width/4,  width);
-        glTexCoord2d(0, 1);
-        glVertex3f(-width, 0,  width);
-
-        // Right
-        glTexCoord2d(1, 0);
-        glVertex3f(width, 0, -width);
-        glTexCoord2d(1, 1);
-        glVertex3f(width, 0,  width);
-        glTexCoord2d(2/3.0, 2/3.0);
-        glVertex3f(width, 3.0*width/4,  width);
-        glTexCoord2d(2/3.0, 1/3.0);
-        glVertex3f(width, 3.0*width/4,  -width);
-
-        // Front 
-        glTexCoord2d(1, 1);
-        glVertex3f( width, 0, width);
-        glTexCoord2d(0, 1);
-        glVertex3f(-width, 0, width);
-        glTexCoord2d(1/3.0, 2/3.0);
-        glVertex3f(-width, 3.0*width/4, width);
-        glTexCoord2d(2/3.0, 2/3.0);
-        glVertex3f( width, 3.0*width/4, width);
-
-        // Back
-        glTexCoord2d(0, 0);
-        glVertex3f(-width, 0, -width);
-        glTexCoord2d(1, 0);
-        glVertex3f( width, 0, -width);
-        glTexCoord2d(2/3.0, 1/3.0);
-        glVertex3f( width, 3.0*width/4, -width);
-        glTexCoord2d(1/3.0, 1/3.0);
-        glVertex3f(-width, 3.0*width/4, -width);
-
-        // Top
-        glTexCoord2d(2/3.0, 1/3.0);
-        glVertex3f( width, 3.0*width/4, -width);
-        glTexCoord2d(2/3.0, 2/3.0);
-        glVertex3f( width, 3.0*width/4,  width);
-        glTexCoord2d(1/3.0, 2/3.0);
-        glVertex3f(-width, 3.0*width/4,  width);
-        glTexCoord2d(1/3.0, 1/3.0);
-        glVertex3f(-width, 3.0*width/4, -width);
-    glEnd();
-    */
 
 }

@@ -8,6 +8,25 @@
 #include "glm/glm.h"
 #include "glm/nv_math.h"
 #include "glm/nv_algebra.h"
+#include "lib/bmpReader.h"
+
+// Textures
+#define TEXTURE_COUNT   5
+#define GROUND_TEXTURE  0
+#define WATER_TEXTURE   1
+#define SKY_TEXTURE     2
+#define SAND_TEXTURE    3
+#define SUNSET_TEXTURE  4
+
+#define GROUND_TEXTURE_SRC "textures/ground3.bmp"
+#define WATER_TEXTURE_SRC  "textures/water.bmp"
+#define SKY_TEXTURE_SRC    "textures/sky6.bmp"
+#define SAND_TEXTURE_SRC   "textures/sand.bmp"
+#define SUNSET_TEXTURE_SRC "textures/sunset.bmp"
+
+static GLuint textures[TEXTURE_COUNT];
+static const char *textures_src[TEXTURE_COUNT] 
+    = {GROUND_TEXTURE_SRC, WATER_TEXTURE_SRC, SKY_TEXTURE_SRC, SAND_TEXTURE_SRC, SUNSET_TEXTURE_SRC};
 
 // Generate
 Terrain *terrain;
@@ -27,9 +46,10 @@ const GLint FPS = 15;
 
 // show mode
 Terrain::RENDER_TYPE terrain_mode = Terrain::SOLID;
-Water::RENDER_TYPE water_mode = Water::SOLID;
+Water::RENDER_TYPE   water_mode   = Water::SOLID;
 
 void setupMode(int m) {
+
     switch(m) {
         case 1: 
             terrain_mode = Terrain::SOLID;
@@ -43,6 +63,7 @@ void setupMode(int m) {
         case 4:
             water_mode = Water::WIRE;
     }
+
 }
 
 void setupTerrain() {
@@ -69,6 +90,7 @@ void setupSky() {
 void setupOBJ() {
 
     castle = glmReadOBJ(castleOBJ);
+
     if (!castle) exit(0);
     glmUnitize(castle);
     glmFacetNormals(castle);
@@ -90,25 +112,21 @@ void renderScene() {
 
     camera.render();
 
-    GLfloat color[3] = {0.5, 0.5, 0.5};
-
     // Render terrain
-    glBindTexture(GL_TEXTURE_2D, 1);
     glPushMatrix();
-    // glTranslatef(-WORLD_SIZE/2.0, 0, -WORLD_SIZE/2.0);
-    terrain->render(WORLD_SIZE, color, terrain_mode);
+    GLfloat terrain_color[4] = { 0.2, 0.2, 0.45, 0.0 };
+    terrain->render(WORLD_SIZE, terrain_color, textures[GROUND_TEXTURE], terrain_mode);
     glPopMatrix();
 
     // Render sky
-    glBindTexture(GL_TEXTURE_2D, 3);
     glPushMatrix();
-    sky->render(WORLD_SIZE);
+    sky->render(WORLD_SIZE, textures[SKY_TEXTURE]);
     glPopMatrix();
 
     // Render water
-    glBindTexture(GL_TEXTURE_2D, 2);
     glPushMatrix();
-    water->render(WORLD_SIZE + 2, color, water_mode);
+    GLfloat water_color[4] = { 0.30, 0.40, 0.55, 0.8 };
+    water->render(WORLD_SIZE + 2, water_color, textures[WATER_TEXTURE], water_mode);
     glPopMatrix();
 
     // Render castle
@@ -154,12 +172,16 @@ void keyDown(unsigned char key, int x, int y) {
 
     switch(key) {
         case 'w':
-            // camera.moveForward(0.1);
             camera.moveForwardDirection(0.1);
             break;
         case 's':
-            //camera.moveBackward(0.1);
             camera.moveBackwardDirection(0.1);
+            break;
+        case 'a':
+            camera.moveLeft(1);
+            break;
+        case 'd':
+            camera.moveRight(1);
             break;
         case 'r':
             camera.moveUp(0.1);
@@ -193,6 +215,7 @@ void keyDown(unsigned char key, int x, int y) {
 }
 
 void setupMenu() {
+
     int terrainModeMenu = glutCreateMenu(setupMode);
     glutAddMenuEntry("Solid", 1);
     glutAddMenuEntry("WIRE", 2);
@@ -205,6 +228,47 @@ void setupMenu() {
     glutAddSubMenu("Terrain", terrainModeMenu);
     glutAddSubMenu("Water", waterModeMenu);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
+
+}
+
+void setupTexture() {
+
+    GLbyte *pBytes;
+    GLint iWidth, iHeight, iComponents;
+    GLenum eFormat;
+
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    glGenTextures(TEXTURE_COUNT, textures);
+    for (GLint i = 0; i < TEXTURE_COUNT; ++i) {
+
+        iWidth = 0;
+        iHeight = 0;
+
+        glBindTexture(GL_TEXTURE_2D, textures[i]);
+
+        // Load texture
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        pBytes = bmpReader(textures_src[i], iWidth, iHeight);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, iWidth, iHeight, 
+                0, GL_BGR, GL_UNSIGNED_BYTE, pBytes);
+
+        GLfloat fLargest;
+
+        glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &fLargest);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, fLargest);
+        
+        free(pBytes);
+
+    }
+
 }
 
 int main(int argc, char **argv) {
@@ -217,8 +281,8 @@ int main(int argc, char **argv) {
     glutCreateWindow("Terrain");
 
     setupMenu();
-
     setupRC();
+    setupTexture();
     setupObjects();
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);

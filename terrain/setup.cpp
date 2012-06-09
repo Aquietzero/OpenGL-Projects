@@ -10,7 +10,6 @@ void setupRC() {
     glEnable(GL_COLOR_SUM);
 
     setupLightAndMaterial();
-    setupTexture();
     setupFog();
 
 }
@@ -39,47 +38,6 @@ void setupLightAndMaterial() {
 
     glMaterialfv(GL_FRONT, GL_SPECULAR, specularLight);
     glMateriali(GL_FRONT, GL_SHININESS, 128);
-
-}
-
-void setupTexture() {
-
-    GLbyte *pBytes;
-    GLint iWidth, iHeight, iComponents;
-    GLenum eFormat;
-
-    glEnable(GL_TEXTURE_2D);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-    glGenTextures(TEXTURE_COUNT, textures);
-    for (GLint i = 0; i < TEXTURE_COUNT; ++i) {
-
-        iWidth = 0;
-        iHeight = 0;
-
-
-        glBindTexture(GL_TEXTURE_2D, textures[i]);
-
-        // Load texture
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        pBytes = bmpReader(textures_src[i], iWidth, iHeight);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, iWidth, iHeight, 
-                0, GL_BGR, GL_UNSIGNED_BYTE, pBytes);
-
-        GLfloat fLargest;
-
-        glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &fLargest);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, fLargest);
-        
-        free(pBytes);
-
-    }
 
 }
 

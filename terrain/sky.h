@@ -27,7 +27,7 @@ class Sky {
         Sky() {};
         ~Sky() {};
 
-        void render(GLint width);
+        void render(GLint width, GLuint texture);
 
 };
 

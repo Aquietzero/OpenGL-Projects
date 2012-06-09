@@ -141,11 +141,11 @@ void Terrain::square(int x, int y, int step, float r) {
 
 }
 
-void Terrain::render(int s, float c[], RENDER_TYPE t) {
+void Terrain::render(int s, float c[], GLuint texture, RENDER_TYPE t) {
 
     switch(t) {
         case SOLID:
-            renderSolidTerrain(s, c);
+            renderSolidTerrain(s, c, texture);
             break;
         case WIRE:
             renderWireTerrain(s, c);
@@ -157,16 +157,6 @@ void Terrain::render(int s, float c[], RENDER_TYPE t) {
 
 }
 
-void Terrain::setPlaneNormals(int s) {
-
-    GLfloat step = (GLfloat)2*s / size;
-    for (int i = 0; i < size; ++i) 
-        for (int j = 0; j < size; ++j) 
-            getNormalVector2fv(0, terrain[i+1][j]-terrain[i][j], step,
-                               step, terrain[i+1][j+1]-terrain[i+1][j], 0, 
-                               terrainPlaneNormals[i][j]);
-
-}
 void Terrain::renderWireTerrain(int s, float c[]) {
 
     GLfloat step = (GLfloat)2*s / size;
@@ -194,25 +184,22 @@ void Terrain::renderWireTerrain(int s, float c[]) {
     glEnd();
 }
 
-void Terrain::renderSolidTerrain(int s, float c[]) {
+void Terrain::renderSolidTerrain(int s, float c[], GLuint texture) {
 
     GLfloat step = (GLfloat)2*s / size;
     GLfloat x = -(GLfloat)s;
     GLfloat z = -(GLfloat)s;
     //GLfloat *nv;
 
+    glBindTexture(GL_TEXTURE_2D, texture);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glColor4f(0.2, 0.2, 0.45, 0.0);
+    glColor4f(c[0], c[1], c[2], c[3]);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glBegin(GL_QUADS);
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            /*
-            nv = getNormalVector2f(0, terrain[i+1][j]-terrain[i][j], step,
-                                   step, terrain[i+1][j]-terrain[i+1][j+1], 0);
-            glNormal3fv(nv);
-            */
+
             glNormal3fv(terrainPlaneNormals[i][j]);
             
             glTexCoord2f((float)i/size, (float)j/size);
@@ -286,3 +273,15 @@ void Terrain::smooth() {
     }
 
 }
+
+void Terrain::setPlaneNormals(int s) {
+
+    GLfloat step = (GLfloat)2*s / size;
+    for (int i = 0; i < size; ++i) 
+        for (int j = 0; j < size; ++j) 
+            getNormalVector2fv(0, terrain[i+1][j]-terrain[i][j], step,
+                               step, terrain[i+1][j+1]-terrain[i+1][j], 0, 
+                               terrainPlaneNormals[i][j]);
+
+}
+
