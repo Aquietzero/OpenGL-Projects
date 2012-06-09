@@ -25,6 +25,26 @@ Vector3D<GLfloat> upDirection(0.0, 1.0, 0.0);
 Camera3D camera(cameraPos, cameraViewDirection, upDirection);
 const GLint FPS = 15;
 
+// show mode
+Terrain::RENDER_TYPE terrain_mode = Terrain::SOLID;
+Water::RENDER_TYPE water_mode = Water::SOLID;
+
+void setupMode(int m) {
+    switch(m) {
+        case 1: 
+            terrain_mode = Terrain::SOLID;
+            break;
+        case 2:
+            terrain_mode = Terrain::WIRE;
+            break;
+        case 3:
+            water_mode = Water::SOLID;
+            break;
+        case 4:
+            water_mode = Water::WIRE;
+    }
+}
+
 void setupTerrain() {
 
     terrain = new Terrain(256, 8.0, 1.2);
@@ -76,7 +96,7 @@ void renderScene() {
     glBindTexture(GL_TEXTURE_2D, 1);
     glPushMatrix();
     // glTranslatef(-WORLD_SIZE/2.0, 0, -WORLD_SIZE/2.0);
-    terrain->render(WORLD_SIZE, color, Terrain::SOLID);
+    terrain->render(WORLD_SIZE, color, terrain_mode);
     glPopMatrix();
 
     // Render sky
@@ -88,7 +108,7 @@ void renderScene() {
     // Render water
     glBindTexture(GL_TEXTURE_2D, 2);
     glPushMatrix();
-    water->render(WORLD_SIZE + 2, color, Water::SOLID);
+    water->render(WORLD_SIZE + 2, color, water_mode);
     glPopMatrix();
 
     // Render castle
@@ -172,6 +192,21 @@ void keyDown(unsigned char key, int x, int y) {
 
 }
 
+void setupMenu() {
+    int terrainModeMenu = glutCreateMenu(setupMode);
+    glutAddMenuEntry("Solid", 1);
+    glutAddMenuEntry("WIRE", 2);
+
+    int waterModeMenu = glutCreateMenu(setupMode);
+    glutAddMenuEntry("Solid", 3);
+    glutAddMenuEntry("Wire", 4);
+
+    int mainMenu = glutCreateMenu(setupMode);
+    glutAddSubMenu("Terrain", terrainModeMenu);
+    glutAddSubMenu("Water", waterModeMenu);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
 int main(int argc, char **argv) {
 
     glutInit(&argc, argv);
@@ -180,6 +215,8 @@ int main(int argc, char **argv) {
     glutInitWindowSize(800, 600);
     glutInitWindowPosition(150, 150);
     glutCreateWindow("Terrain");
+
+    setupMenu();
 
     setupRC();
     setupObjects();

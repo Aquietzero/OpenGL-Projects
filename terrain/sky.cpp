@@ -31,6 +31,7 @@ void Sky::render(GLint width) {
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glutSolidSphere(width, 50, 50);
 
     glDisable(GL_TEXTURE_GEN_S);

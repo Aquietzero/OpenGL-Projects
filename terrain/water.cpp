@@ -148,35 +148,24 @@ void Water::renderWireWater(int s, float c[]) {
 
     GLfloat step = (GLfloat)2*s / size;
     GLfloat x = -(GLfloat)s;
-    GLfloat y = -(GLfloat)s;
+    GLfloat z = -(GLfloat)s;
 
     // glColor3fv(c);
-    glColor3ub(255, 255, 255);
+    glColor3f(0, 0, 1);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glBegin(GL_QUADS);
+    for (int i = 1; i < size; ++i) {
+        for (int j = 1; j < size; ++j) {
 
-    glBegin(GL_LINES);
-    for (int i = 0; i < size - 1; ++i) {
-        for (int j = 0; j < size - 1; ++j) {
-            getNormalVector2fv(step, water[i+1][j]-water[i][j], 0, 
-                              0, water[i+1][j]-water[i+1][j+1], step,
-                              waterVertexNormals[i][j]);
-            glNormal3fv(waterVertexNormals[i][j]);
+            glVertex3f(x-step, water[i-1][j-1], z-step);
+            glVertex3f(x-step, water[i-1][j], z);
+            glVertex3f(x, water[i][j], z);
+            glVertex3f(x, water[i][j-1], z-step);
 
-            glVertex3f(x, water[i][j], y);
-            glVertex3f(x, water[i][j+1], y+step);
-
-            glVertex3f(x, water[i][j+1], y+step);
-            glVertex3f(x+step, water[i+1][j+1], y+step);
-
-            glVertex3f(x+step, water[i+1][j+1], y+step);
-            glVertex3f(x+step, water[i+1][j], y);
-
-            glVertex3f(x+step, water[i+1][j], y);
-            glVertex3f(x, water[i][j], y);
-
-            y += step;
+            z += step;
         }
         x += step;
-        y = -(GLfloat)s;
+        z = -(GLfloat)s;
     }
     glEnd();
 
@@ -196,6 +185,7 @@ void Water::renderSolidWater(int s, float c[]) {
     //glColor4f(0.45, 0.55, 0.80, 0.8);
 
     // glColor3ub(200, 200, 200);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glBegin(GL_QUADS);
     for (int i = 1; i < size; ++i) {
         for (int j = 1; j < size; ++j) { 
