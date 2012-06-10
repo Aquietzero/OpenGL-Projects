@@ -10,9 +10,9 @@ In this project, we create an ocean view in which we made every effort to sculpt
 
 2. Nealy all the objects in the scene is created on our own except the castle which is loaded with a given .obj file. I will simply describe the algorithm we used to create the fantastic terrain and ocean.
 
-    + **Terrain:** The terrain is generated with a fractal algorithm called `Diamond-Square`. The algorithm begins with a square grid with length of the power of 2. Then it iterates the grids in a special way to generate random heights of the grid and at the same time conserves the smoothness of the heights. This is why the terrain appears so vivid and real.
++ **Terrain:** The terrain is generated with a fractal algorithm called `Diamond-Square`. The algorithm begins with a square grid with length of the power of 2. Then it iterates the grids in a special way to generate random heights of the grid and at the same time conserves the smoothness of the heights. This is why the terrain appears so vivid and real.
     
-    + **Ocean:** The model of the ocean is just a square grid. The waving of the ocean is simulated based on the famous fluid equation Navier-Stokes, but of course, in its simpler form. The initial function is just generated with the `Diamond-Square` algorithm. Its such a waste no to using it :-P. In the waving part, I just use a Laplace-like functor to iterate. For god's sake, it comes out pretty well.
++ **Ocean:** The model of the ocean is just a square grid. The waving of the ocean is simulated based on the famous fluid equation Navier-Stokes, but of course, in its simpler form. The initial function is just generated with the `Diamond-Square` algorithm. Its such a waste no to using it :-P. In the waving part, I just use a Laplace-like functor to iterate. For god's sake, it comes out pretty well.
     
 3. The far far away castle is loaded with a .obj file which is provided in the previous time of the course. Actually, this .obj is just added to meet the requirement of the project. We don't see any loss in performance of the scene if it doesn't exist.
 
@@ -47,30 +47,30 @@ In this project, we create an ocean view in which we made every effort to sculpt
 
 At first glance, the file structure maybe a little tricky, but I will explain it below.
 
-────┬──── camera 
-    │       ├────── camera.h
-    │       └────── camera.cpp      # The implementation of class Camera.
-    ├──── lib
-    │       ├────── bmpReader.h 
-    │       ├────── bmpReader.cpp   # Useful functions to read .bmp files
-    │       ├────── vector.h
-    │       ├────── vector.cpp      # Aide vector class, both in 2D and 3D
-    │       ├────── mathaux.h
-    │       └────── mathaux.cpp     # Auxiliary math functions.
-    │
-    ├──── sky.h
-    ├──── sky.cpp                   # Sky implementation.
-    ├──── water.h
-    ├──── water.cpp                 # Water implementation.
-    ├──── terrain.h
-    ├──── terrain.cpp               # Terrain implementation.
-    │
-    ├──── const.h                   # Defines constants in the scene.
-    ├──── setup.h                   # Setups the scene and loads the textures.
-    ├──── main.h                    # The basic logic of the whole project.
-    │
-    ├──── textures                  # Textures needed for the program.
-    └──── obj                       # .obj files needed for the program.
+    ────┬──── camera 
+        │       ├────── camera.h
+        │       └────── camera.cpp      # The implementation of class Camera.
+        ├──── lib
+        │       ├────── bmpReader.h 
+        │       ├────── bmpReader.cpp   # Useful functions to read .bmp files
+        │       ├────── vector.h
+        │       ├────── vector.cpp      # Aide vector class, both in 2D and 3D
+        │       ├────── mathaux.h
+        │       └────── mathaux.cpp     # Auxiliary math functions.
+        │
+        ├──── sky.h
+        ├──── sky.cpp                   # Sky implementation.
+        ├──── water.h
+        ├──── water.cpp                 # Water implementation.
+        ├──── terrain.h
+        ├──── terrain.cpp               # Terrain implementation.
+        │
+        ├──── const.h                   # Defines constants in the scene.
+        ├──── setup.h                   # Setups the scene and loads the textures.
+        ├──── main.h                    # The basic logic of the whole project.
+        │
+        ├──── textures                  # Textures needed for the program.
+        └──── obj                       # .obj files needed for the program.
 
 
 ## Running guidance
