@@ -18,15 +18,11 @@ GLbyte* bmpReader(const char *filename, GLint &width, GLint &height) {
     width = width << 8 | ((int)ch3 & 0xff);
     width = width << 8 | ((int)ch4 & 0xff);
 
-    cout << width << endl;
-
     file.get(ch4).get(ch3).get(ch2).get(ch1);
     height = height | ((int)ch1 & 0xff);
     height = height << 8 | ((int)ch2 & 0xff);
     height = height << 8 | ((int)ch3 & 0xff);
     height = height << 8 | ((int)ch4 & 0xff);
-
-    cout << height << endl;
 
     // Get number of bits per pixel.
     GLbyte* image = new GLbyte[width * height * 3];

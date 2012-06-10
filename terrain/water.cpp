@@ -128,17 +128,17 @@ void Water::wave() {
 
 }
 
-void Water::render(int s, float c[], GLuint texture, RENDER_TYPE t) {
+void Water::render(int s, GLfloat sc[], GLfloat ec[], GLuint texture, RENDER_TYPE t) {
 
     switch(t) {
         case SOLID:
-            renderSolidWater(s, c, texture);
+            renderSolidWater(s, sc, ec, texture);
             break;
         case WIRE:
-            renderWireWater(s, c);
+            renderWireWater(s, sc);
             break;
         default:
-            renderWireWater(s, c);
+            renderWireWater(s, sc);
             break;
     }
 
@@ -171,17 +171,23 @@ void Water::renderWireWater(int s, float c[]) {
 
 }
 
-void Water::renderSolidWater(int s, float c[], GLuint texture) {
+void Water::renderSolidWater(int s, GLfloat sc[], GLfloat ec[], GLuint texture) {
 
     GLfloat step = (GLfloat)2*s / size;
     GLfloat x = -(GLfloat)s;
     GLfloat z = -(GLfloat)s;
 
+    GLfloat color_step[4] = { 
+        (ec[0]-sc[0])/size, 
+        (ec[1]-sc[1])/size, 
+        (ec[2]-sc[2])/size, 
+        (ec[3]-sc[3])/size
+    };
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glColor4f(c[0], c[1], c[2], c[3]);
     //glColor4f(0.32, 0.40, 0.53, 0.75);
     //glColor4f(0.45, 0.55, 0.80, 0.8);
 
@@ -190,6 +196,13 @@ void Water::renderSolidWater(int s, float c[], GLuint texture) {
     glBegin(GL_QUADS);
     for (int i = 1; i < size; ++i) {
         for (int j = 1; j < size; ++j) { 
+            glColor4f(
+                    sc[0] + color_step[0]*i,
+                    sc[1] + color_step[1]*i,
+                    sc[2] + color_step[2]*i,
+                    sc[3] + color_step[3]*i
+            );
+
             getNormalVector2fv(0,    water[i+1][j]-water[i][j], step,
                     step, water[i+1][j+1]-water[i+1][j],     0,
                     waterPlaneNormals[i][j]);

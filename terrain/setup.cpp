@@ -10,7 +10,6 @@ void setupRC() {
     glEnable(GL_COLOR_SUM);
 
     setupLightAndMaterial();
-    setupFog();
 
 }
 
@@ -41,9 +40,7 @@ void setupLightAndMaterial() {
 
 }
 
-void setupFog() {
-
-    GLfloat fog[] = {0.7, 0.75, 0.8, 0.05};
+void setupFog(GLfloat fog[]) {
 
     glEnable(GL_FOG);
     glFogfv(GL_FOG_COLOR, fog);

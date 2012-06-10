@@ -53,9 +53,9 @@ class Water {
         void generate();
         void wave();
 
-        void render(int size, float c[], GLuint texture, RENDER_TYPE type=WIRE);
+        void render(int size, GLfloat sc[], GLfloat ec[], GLuint texture, RENDER_TYPE type=WIRE);
         void renderWireWater(int size, float color[]);
-        void renderSolidWater(int size, float color[], GLuint texture);
+        void renderSolidWater(int size, GLfloat sc[], GLfloat ec[], GLuint texture);
 
 };
 

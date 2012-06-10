@@ -24,7 +24,7 @@ inline GLfloat radians(GLfloat x) { return x*PI/180.0; };
 
 void setupRC();
 void setupLightAndMaterial();
-void setupFog();
+void setupFog(GLfloat fog[]);
 
 void setupTerrain();
 void renderScene();

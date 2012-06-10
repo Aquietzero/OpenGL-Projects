@@ -1,14 +1,13 @@
 #include "const.h"
 #include "terrain.h"
 #include "camera/camera.h"
-#include "tree/tree.h"
 #include "water.h"
 #include "sky.h"
-#include "smoke.h"
 #include "glm/glm.h"
 #include "glm/nv_math.h"
 #include "glm/nv_algebra.h"
 #include "lib/bmpReader.h"
+#include "theme.h"
 
 // Textures
 #define TEXTURE_COUNT   5
@@ -18,11 +17,13 @@
 #define SAND_TEXTURE    3
 #define SUNSET_TEXTURE  4
 
-#define GROUND_TEXTURE_SRC "textures/ground3.bmp"
+#define GROUND_TEXTURE_SRC "textures/ground.bmp"
 #define WATER_TEXTURE_SRC  "textures/water.bmp"
-#define SKY_TEXTURE_SRC    "textures/sky6.bmp"
+#define SKY_TEXTURE_SRC    "textures/sky.bmp"
 #define SAND_TEXTURE_SRC   "textures/sand.bmp"
 #define SUNSET_TEXTURE_SRC "textures/sunset.bmp"
+
+#define FPS 15
 
 static GLuint textures[TEXTURE_COUNT];
 static const char *textures_src[TEXTURE_COUNT] 
@@ -37,14 +38,19 @@ Sky     *sky;
 char castleOBJ[] = "obj/castle.obj";
 GLMmodel *castle = NULL;
 
+// Camera
 Vector3D<GLfloat> cameraPos(2.0, 4.0, 6.0);
 Vector3D<GLfloat> cameraViewDirection(-2.0, -2.0, -8.0);
 Vector3D<GLfloat> upDirection(0.0, 1.0, 0.0);
 
 Camera3D camera(cameraPos, cameraViewDirection, upDirection);
-const GLint FPS = 15;
 
-// show mode
+// Theme
+Theme *theme;
+Theme *theme_xxspc;
+Theme *theme_zero;
+
+// Render mode
 Terrain::RENDER_TYPE terrain_mode = Terrain::SOLID;
 Water::RENDER_TYPE   water_mode   = Water::SOLID;
 
@@ -62,6 +68,21 @@ void setupMode(int m) {
             break;
         case 4:
             water_mode = Water::WIRE;
+    }
+
+}
+
+void setupThemes(int t) {
+
+    switch(t) {
+        case 1:
+            theme = theme_xxspc;
+            setupFog(theme_xxspc->fog_color);
+            break;
+        case 2:
+            theme = theme_zero;
+            setupFog(theme_zero->fog_color);
+            break;
     }
 
 }
@@ -98,6 +119,19 @@ void setupOBJ() {
 
 }
 
+void setupTheme() {
+    
+    // Theme of xxspc
+    theme_xxspc = new MorningTheme(textures[SKY_TEXTURE], textures[GROUND_TEXTURE], textures[WATER_TEXTURE]);
+
+    // Theme of zero
+    theme_zero  = new SunsetTheme(textures[SUNSET_TEXTURE], textures[SAND_TEXTURE], textures[WATER_TEXTURE]);
+
+    theme = theme_xxspc;
+    setupFog(theme_xxspc->fog_color);
+
+}
+
 void setupObjects() {
 
     setupTerrain();
@@ -114,19 +148,19 @@ void renderScene() {
 
     // Render terrain
     glPushMatrix();
-    GLfloat terrain_color[4] = { 0.2, 0.2, 0.45, 0.0 };
-    terrain->render(WORLD_SIZE, terrain_color, textures[GROUND_TEXTURE], terrain_mode);
+    // GLfloat terrain_color[4] = { 0.2, 0.2, 0.45, 0.0 };
+    terrain->render(WORLD_SIZE, theme->terrain_color, theme->terrain, terrain_mode);
     glPopMatrix();
 
     // Render sky
     glPushMatrix();
-    sky->render(WORLD_SIZE, textures[SKY_TEXTURE]);
+    sky->render(WORLD_SIZE, theme->sky);
     glPopMatrix();
 
     // Render water
     glPushMatrix();
     GLfloat water_color[4] = { 0.30, 0.40, 0.55, 0.8 };
-    water->render(WORLD_SIZE + 2, water_color, textures[WATER_TEXTURE], water_mode);
+    water->render(WORLD_SIZE + 2, theme->water_color_start, theme->water_color_stop, theme->water, water_mode);
     glPopMatrix();
 
     // Render castle
@@ -134,7 +168,7 @@ void renderScene() {
     glTranslatef(15, 1.5, -35);
     glScalef(3, 3, 3);
     // glmDraw(castle, GLM_SMOOTH);
-    //glmDraw(castle, GLM_SMOOTH | GLM_MATERIAL);
+    glmDraw(castle, GLM_SMOOTH);
     glPopMatrix();
 
     glutSwapBuffers();
@@ -224,9 +258,14 @@ void setupMenu() {
     glutAddMenuEntry("Solid", 3);
     glutAddMenuEntry("Wire", 4);
 
+    int themeMenu = glutCreateMenu(setupThemes);
+    glutAddMenuEntry("Morning Fog", 1);
+    glutAddMenuEntry("Sunset Glorious", 2);
+
     int mainMenu = glutCreateMenu(setupMode);
     glutAddSubMenu("Terrain", terrainModeMenu);
     glutAddSubMenu("Water", waterModeMenu);
+    glutAddSubMenu("Theme", themeMenu);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 }
@@ -283,6 +322,7 @@ int main(int argc, char **argv) {
     setupMenu();
     setupRC();
     setupTexture();
+    setupTheme();
     setupObjects();
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);

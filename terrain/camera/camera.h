@@ -8,8 +8,8 @@
 #include <iostream>
 #include <math.h>
 
-#include "lib/mathaux.h"
-#include "lib/vector.h"
+#include "../lib/mathaux.h"
+#include "../lib/vector.h"
 
 using namespace std;
 
