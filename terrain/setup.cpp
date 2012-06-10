@@ -47,7 +47,7 @@ void setupFog(GLfloat fog[]) {
     //glFogf(GL_FOG_START, 5.0);
     //glFogf(GL_FOG_END, 40.0);
     //glFogi(GL_FOG_MODE, GL_LINEAR);
-    glFogf(GL_FOG_DENSITY, 0.04);
+    glFogf(GL_FOG_DENSITY, 0.035);
     glFogi(GL_FOG_MODE, GL_EXP);
 
 }

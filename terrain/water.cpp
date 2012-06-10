@@ -184,6 +184,8 @@ void Water::renderSolidWater(int s, GLfloat sc[], GLfloat ec[], GLuint texture) 
         (ec[3]-sc[3])/size
     };
 
+    glDisable(GL_CULL_FACE);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -234,6 +236,8 @@ void Water::renderSolidWater(int s, GLfloat sc[], GLfloat ec[], GLuint texture) 
     glEnd();    
 
     glDisable(GL_BLEND);
+
+    glEnable(GL_CULL_FACE);
 
 }
 
